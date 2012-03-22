@@ -1,3 +1,48 @@
+Clutter 1.10.0                                                       2012-03-22
+===============================================================================
+
+  • Clutter 1.10.0, new stable release
+
+  • List of changes since Clutter 1.9.16
+
+    - Fix ClutterTimeline:current-repeat accessor
+    The :current-repeat value was being incremented prior to emitting the
+    completed signal, which meant that signal handlers would not be able
+    to retrieve the correct value.
+
+    - Improve the memory management of Transitions
+    ClutterActor now takes a reference on the Transitions that have been
+    added to it, and releases the reference when the Transition is removed;
+    this means that it's safe to release the reference of a transition after
+    adding it, to let ClutterActor own it.
+
+    - Remove the Animatable argument for PropertyTransition constructor
+    The animatable was not meant to be there in the first place; the
+    PropertyTransition will perform validation on the property lazily, once
+    it's been attached to the actor.
+
+    - Clean up documentation and examples
+    Ensure that the API reference is using the correct API and best
+    practices.
+
+    - Fix TableLayout policy for actors spanning multiple rows or columns
+    The ClutterTableLayout inherited some small bug from MxTable that got
+    fixed in the meantime; the layout policy has been re-synchronized.
+
+    - Build fixes for the Wayland backend.
+
+    - Updated VisualStudio project files.
+
+  • List of bugs fixed since Clutter 1.9.16
+
+    [bugzilla.gnome.org]
+    #672557 - Fix ClutterTableLayout
+
+Many thanks to:
+
+  Jasper St. Pierre, Chun-wei Fan, Robert Bragg, Chao-Hsiung Liao,
+  Neil Roberts, Rico Tzschichholz, Rob Bradford
+
 Clutter 1.9.16                                                       2012-03-19
 ===============================================================================
 
