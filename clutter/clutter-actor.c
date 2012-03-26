@@ -17334,6 +17334,12 @@ clutter_actor_add_transition (ClutterActor      *self,
                                          G_CALLBACK (on_transition_completed),
                                          clos);
 
+  CLUTTER_NOTE (ANIMATION,
+                "Adding transition '%s' [%p] to actor '%s'",
+                clos->name,
+                clos->transition,
+                _clutter_actor_get_debug_name (self));
+
   g_hash_table_insert (info->transitions, clos->name, clos);
   clutter_timeline_start (timeline);
 }
@@ -17606,7 +17612,6 @@ clutter_actor_get_transition (ClutterActor *self,
   g_return_val_if_fail (name != NULL, NULL);
 
   info = _clutter_actor_get_animation_info_or_defaults (self);
-
   if (info->transitions == NULL)
     return NULL;
 
