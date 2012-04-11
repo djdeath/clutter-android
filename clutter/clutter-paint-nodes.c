@@ -820,6 +820,7 @@ clutter_text_node_serialize (ClutterPaintNode *node)
 
   json_builder_set_member_name (builder, "layout");
 
+#if PANGO_VERSION_CHECK (1, 30, 0)
   if (pango_layout_get_character_count (tnode->layout) > 12)
     {
       const char *text = pango_layout_get_text (tnode->layout);
@@ -830,6 +831,7 @@ clutter_text_node_serialize (ClutterPaintNode *node)
       g_free (str);
     }
   else
+#endif /* PANGO_VERSION_CHECK (1, 30, 0) */
     json_builder_add_string_value (builder, pango_layout_get_text (tnode->layout));
 
   json_builder_set_member_name (builder, "color");
