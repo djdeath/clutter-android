@@ -17038,25 +17038,35 @@ static void
 on_transition_completed (ClutterTransition *transition,
                          TransitionClosure *clos)
 {
+  ClutterTimeline *timeline = CLUTTER_TIMELINE (transition);
   ClutterActor *actor = clos->actor;
   ClutterAnimationInfo *info;
+  gint n_repeats, cur_repeat;
+
+  info = _clutter_actor_get_animation_info (actor);
 
   /* reset the caches used by animations */
   clutter_actor_store_content_box (actor, NULL);
 
-  info = _clutter_actor_get_animation_info (actor);
+  /* ensure that we remove the transition only at the end
+   * of its run; we emit ::completed for every repeat
+   */
+  n_repeats = clutter_timeline_get_repeat_count (timeline);
+  cur_repeat = clutter_timeline_get_current_repeat (timeline);
 
-  /* this will take care of cleaning clos for us */
-  if (clutter_transition_get_remove_on_complete (transition))
+  if (cur_repeat == n_repeats)
     {
-      /* we take a reference here because removing the closure
-       * will release the reference on the transition, and we
-       * want the transition to survive the signal emission;
-       * the master clock will release the laste reference at
-       * the end of the frame processing.
-       */
-      g_object_ref (transition);
-      g_hash_table_remove (info->transitions, clos->name);
+      if (clutter_transition_get_remove_on_complete (transition))
+        {
+          /* we take a reference here because removing the closure
+           * will release the reference on the transition, and we
+           * want the transition to survive the signal emission;
+           * the master clock will release the last reference at
+           * the end of the frame processing.
+           */
+          g_object_ref (transition);
+          g_hash_table_remove (info->transitions, clos->name);
+        }
     }
 
   /* if it's the last transition then we clean up */
