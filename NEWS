@@ -1,3 +1,35 @@
+Clutter 1.10.2                                                       2012-04-16
+===============================================================================
+
+  • List of changes since Clutter 1.10.0
+
+    - Fix expansion of actors inside a TableLayout
+    For actors that span more than one column, the wrong flag was being
+    used to compute the expansion.
+
+    - Fix text length passed to ClutterTextBuffer
+    This should fix crashers happening when changing the contents of a
+    TextBuffer with non-ASCII characters.
+
+    - Clean up handling of in-flight changes during implicit transitions
+    The transitions are updated using the new value, as well as the
+    current easing state. The documentation has been updated to define
+    the behaviour of the implicit animations.
+
+  • List of bugs fixed since Clutter 1.10.0
+
+    [bugzilla.gnome.org]
+    #673783 - ClutterTextBuffer crashes
+    #672945 - Fixes for the implicit actor animation API
+    #672853 - Assistant layout is broken
+    #672890 - CRASH: ClutterAnimation finalized without disconnecting timeline
+    #674105 - cally.pc is buggy
+
+Many thanks to:
+
+  Jasper St. Pierre, Neil Roberts, Owen W. Taylor, Peter Hutterer,
+  Stefano Facchini, Tristan Van Berkom.
+
 Clutter 1.10.0                                                       2012-03-22
 ===============================================================================
 
