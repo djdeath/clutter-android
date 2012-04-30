@@ -1437,7 +1437,7 @@ clutter_texture_get_cogl_texture (ClutterTexture *texture)
 }
 
 /**
- * clutter_texture_set_cogl_texture
+ * clutter_texture_set_cogl_texture:
  * @texture: A #ClutterTexture
  * @cogl_tex: A CoglHandle for a texture
  *
@@ -2135,7 +2135,7 @@ clutter_texture_set_filter_quality (ClutterTexture        *texture,
 }
 
 /**
- * clutter_texture_get_filter_quality
+ * clutter_texture_get_filter_quality:
  * @texture: A #ClutterTexture
  *
  * Gets the filter quality used when scaling a texture.
@@ -2176,7 +2176,7 @@ clutter_texture_get_filter_quality (ClutterTexture *texture)
 }
 
 /**
- * clutter_texture_get_max_tile_waste
+ * clutter_texture_get_max_tile_waste:
  * @texture: A #ClutterTexture
  *
  * Gets the maximum waste that will be used when creating a texture or
