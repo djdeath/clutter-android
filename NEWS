@@ -1,3 +1,28 @@
+Clutter 1.10.4                                                       2012-05-01
+===============================================================================
+
+  • List of changes since Clutter 1.10.2
+
+    - Fixes for XInput 2 event handling
+    We should only select events for enabled devices, and keep track of the
+    device state.
+
+    - Fix an overflow when calculating the distance of very long paths
+
+    - Ensure that we don't change actor visibility when restacking
+
+  • List of bugs fixed since Clutter 1.10.2
+
+    [bugzilla.gnome.org]
+    #674510 - Changing a hidden child's position with new API shows the actor
+    #673644 - Scroll not working in document overview
+    #652521 - get_length fails in Clutter.Path when length is greater
+              than 46340
+Many thanks to:
+
+  Cosimo Cecchi, Christian Kirbach, Jasper St. Pierre, Jonh Wendell,
+  Yuri Myasoedov.
+
 Clutter 1.10.2                                                       2012-04-16
 ===============================================================================
 
