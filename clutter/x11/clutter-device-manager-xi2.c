@@ -1044,7 +1044,7 @@ clutter_device_manager_xi2_translate_event (ClutterEventTranslator *translator,
                                       GINT_TO_POINTER (xev->deviceid));
         clutter_event_set_device (event, device);
 
-        event->touch.axes = translate_axes (event->motion.device,
+        event->touch.axes = translate_axes (event->touch.device,
                                             event->motion.x,
                                             event->motion.y,
                                             stage_x11,
@@ -1097,7 +1097,7 @@ clutter_device_manager_xi2_translate_event (ClutterEventTranslator *translator,
                                       GINT_TO_POINTER (xev->deviceid));
         clutter_event_set_device (event, device);
 
-        event->touch.axes = translate_axes (event->motion.device,
+        event->touch.axes = translate_axes (event->touch.device,
                                             event->motion.x,
                                             event->motion.y,
                                             stage_x11,
