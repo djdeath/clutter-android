@@ -350,7 +350,7 @@ copy ..\..\..\clutter\cally\cally-util.h $(CopyDir)\include\clutter-$(ClutterApi
     <GenerateClutterDef>
          echo EXPORTS &gt; ..\..\..\clutter\clutter.def
 
-         cl -EP -DHAVE_CAIRO -DHAVE_CLUTTER_WIN32 -DCLUTTER_ENABLE_EXPERIMENTAL_API ..\..\..\clutter\clutter.symbols &gt;&gt; ..\..\..\clutter\clutter.def
+         cl -EP -DHAVE_CAIRO -DCLUTTER_WINDOWING_WIN32 -DCLUTTER_ENABLE_EXPERIMENTAL_API ..\..\..\clutter\clutter.symbols &gt;&gt; ..\..\..\clutter\clutter.def
 
      </GenerateClutterDef>
     <ClutterLibtoolCompatibleDllPrefix>lib</ClutterLibtoolCompatibleDllPrefix>

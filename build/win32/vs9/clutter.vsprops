@@ -257,7 +257,7 @@ copy ..\..\..\clutter\cally\cally-util.h $(OutDir)\include\clutter-$(ClutterApiV
 		Name="GenerateClutterDef"
 		Value="
 		       echo EXPORTS &gt; ..\..\..\clutter\clutter.def&#x0D;&#x0A;
-			   cl -EP -DHAVE_CAIRO -DHAVE_CLUTTER_WIN32 -DCLUTTER_ENABLE_EXPERIMENTAL_API ..\..\..\clutter\clutter.symbols &gt;&gt; ..\..\..\clutter\clutter.def&#x0D;&#x0A;
+			   cl -EP -DHAVE_CAIRO -DCLUTTER_WINDOWING_WIN32 -DCLUTTER_ENABLE_EXPERIMENTAL_API ..\..\..\clutter\clutter.symbols &gt;&gt; ..\..\..\clutter\clutter.def&#x0D;&#x0A;
 			  "
 	/>
 	<UserMacro
