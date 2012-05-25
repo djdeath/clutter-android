@@ -528,6 +528,39 @@ pc_files += clutter-gdk-$(CLUTTER_API_VERSION).pc
 gdk_introspection = $(gdk_source_c) $(gdk_source_h)
 endif # SUPPORT_GDK
 
+
+android_source_c = \
+	$(srcdir)/android/clutter-android-application.c	\
+	$(NULL)
+
+android_source_c_priv = \
+	$(srcdir)/android/clutter-device-manager-android.c \
+	$(srcdir)/android/clutter-backend-android.c \
+	$(NULL)
+
+android_source_h = \
+	$(srcdir)/android/clutter-android-application.h	\
+	$(srcdir)/android/clutter-android.h		\
+	$(NULL)
+
+android_source_h_priv = \
+	$(srcdir)/android/android_native_app_glue.h		\
+	$(srcdir)/android/clutter-device-manager-android.h	\
+	$(srcdir)/android/clutter-backend-android.h \
+	$(NULL)
+
+if SUPPORT_ANDROID
+
+AM_CFLAGS += -I$(srcdir)/android
+backend_source_h += $(android_source_h)
+backend_source_c += $(android_source_c)
+backend_source_h_priv += $(android_source_h_priv)
+backend_source_c_priv += $(android_source_c_priv)
+
+android_includedir = $(clutter_includedir)/android
+android_include_HEADERS = $(android_source_h)
+endif # SUPPORT_ANDROID
+
 # Windows backend rules
 win32_source_c = \
 	$(srcdir)/win32/clutter-backend-win32.c		\

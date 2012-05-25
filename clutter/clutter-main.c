@@ -131,6 +131,9 @@
 #ifdef CLUTTER_WINDOWING_WAYLAND
 #include "wayland/clutter-backend-wayland.h"
 #endif
+#ifdef CLUTTER_WINDOWING_ANDROID
+#include "android/clutter-backend-android.h"
+#endif
 
 #include <cogl/cogl.h>
 #include <cogl-pango/cogl-pango.h>
@@ -1394,6 +1397,11 @@ clutter_create_backend (void)
 #ifdef CLUTTER_WINDOWING_GDK
   if (backend == NULL || backend == I_(CLUTTER_WINDOWING_GDK))
     retval = g_object_new (CLUTTER_TYPE_BACKEND_GDK, NULL);
+  else
+#endif
+#ifdef CLUTTER_WINDOWING_ANDROID
+  if (backend == NULL || backend == I_(CLUTTER_WINDOWING_ANDROID))
+    retval = g_object_new (CLUTTER_TYPE_BACKEND_ANDROID, NULL);
   else
 #endif
   if (backend == NULL)
@@ -3910,6 +3918,12 @@ clutter_check_windowing_backend (const char *backend_type)
 #ifdef CLUTTER_WINDOWING_X11
   if (backend_type == I_(CLUTTER_WINDOWING_X11) &&
       CLUTTER_IS_BACKEND_X11 (context->backend))
+    return TRUE;
+  else
+#endif
+#ifdef CLUTTER_WINDOWING_ANDROID
+  if (backend_type == I_(CLUTTER_WINDOWING_ANDROID) &&
+      CLUTTER_IS_BACKEND_ANDROID (context->backend))
     return TRUE;
   else
 #endif
