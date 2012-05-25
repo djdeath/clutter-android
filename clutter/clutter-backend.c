@@ -83,6 +83,9 @@
 #ifdef CLUTTER_INPUT_WAYLAND
 #include "wayland/clutter-device-manager-wayland.h"
 #endif
+#ifdef CLUTTER_INPUT_ANDROID
+#include "android/clutter-backend-android.h"
+#endif
 
 #ifdef HAVE_CLUTTER_WAYLAND_COMPOSITOR
 #include <cogl/cogl-wayland-server.h>
@@ -501,6 +504,14 @@ clutter_backend_real_init_events (ClutterBackend *backend)
       (input_backend == NULL || input_backend == I_(CLUTTER_INPUT_GDK)))
     {
       _clutter_backend_gdk_events_init (backend);
+    }
+  else
+#endif
+#ifdef CLUTTER_INPUT_ANDROID
+  if (clutter_check_windowing_backend (CLUTTER_WINDOWING_ANDROID) &&
+      (input_backend == NULL || input_backend == I_(CLUTTER_INPUT_ANDROID)))
+    {
+      _clutter_backend_android_events_init (backend);
     }
   else
 #endif
