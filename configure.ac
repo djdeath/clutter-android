@@ -246,6 +246,10 @@ AC_ARG_ENABLE([cex100-backend],
               [AS_HELP_STRING([--enable-cex100-backend=@<:@yes/no@:>@], [Enable the CEx100 backend (default=no)])],
               [enable_cex100=$enableval],
               [enable_cex100=no])
+AC_ARG_ENABLE([android-backend],
+              [AS_HELP_STRING([--enable-android-backend=@<:@yes/no@:>@], [Enable the Android backend (default=no)])],
+              [enable_android=$enableval],
+              [enable_android=no])
 
 dnl Define default values
 AS_IF([test "x$enable_x11" = "xcheck"],
@@ -431,6 +435,19 @@ AS_IF([test "x$enable_win32" = "xyes"],
         SUPPORT_WIN32=1
       ])
 
+AS_IF([test "x$enable_android" = "xyes"],
+      [
+        SUPPORT_COGL=1
+        SUPPORT_ANDROID=1
+
+        CLUTTER_BACKENDS="$CLUTTER_BACKENDS android"
+        CLUTTER_INPUT_BACKENDS="$CLUTTER_INPUT_BACKENDS android"
+
+        AC_DEFINE([HAVE_CLUTTER_ANDROID], [1], [Have the Android backend])
+
+        BACKEND_PC_FILES="$BACKEND_PC_FILES glib-android-1.0"
+      ])
+
 AS_IF([test "x$CLUTTER_BACKENDS" = "x"],
       [
         AC_MSG_ERROR([No backend enabled. You need to enable at least one backend.])
@@ -486,6 +503,7 @@ AM_CONDITIONAL(SUPPORT_OSX,     [test "x$SUPPORT_OSX" = "x1"])
 AM_CONDITIONAL(SUPPORT_WIN32,   [test "x$SUPPORT_WIN32" = "x1"])
 AM_CONDITIONAL(SUPPORT_CEX100,  [test "x$SUPPORT_CEX100" = "x1"])
 AM_CONDITIONAL(SUPPORT_WAYLAND, [test "x$SUPPORT_WAYLAND" = "x1"])
+AM_CONDITIONAL(SUPPORT_ANDROID, [test "x$SUPPORT_ANDROID" = "x1"])
 
 AM_CONDITIONAL(USE_COGL,  [test "x$SUPPORT_COGL" = "x1"])
 AM_CONDITIONAL(USE_TSLIB, [test "x$have_tslib" = "xyes"])
@@ -550,6 +568,10 @@ AS_IF([test "x$SUPPORT_TSLIB" = "x1"],
 AS_IF([test "x$SUPPORT_WAYLAND" = "x1"],
       [CLUTTER_CONFIG_DEFINES="$CLUTTER_CONFIG_DEFINES
 #define CLUTTER_INPUT_WAYLAND \"wayland\""])
+AS_IF([test "x$SUPPORT_ANDROID" = "x1"],
+      [CLUTTER_CONFIG_DEFINES="$CLUTTER_CONFIG_DEFINES
+#define CLUTTER_WINDOWING_ANDROID \"android\"
+#define CLUTTER_INPUT_ANDROID \"android\""])
 
 # the 'null' input backend is special
 CLUTTER_CONFIG_DEFINES="$CLUTTER_CONFIG_DEFINES
@@ -1274,6 +1296,11 @@ fi
 if test "x$SUPPORT_WAYLAND_COMPOSITOR" = "x1"; then
 echo ""
 echo "     - Wayland compositor support enabled (WARNING: Experimental)"
+fi
+
+if test "x$SUPPORT_ANDROID" = "x1"; then
+echo ""
+echo "     - Android backend enabled (WARNING: Experimental)"
 fi
 
 echo ""
