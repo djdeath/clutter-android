@@ -1107,10 +1107,11 @@ _clutter_stage_get_pick_buffer_valid (ClutterStage *stage, ClutterPickMode mode)
 {
   g_return_val_if_fail (CLUTTER_IS_STAGE (stage), FALSE);
 
-  if (stage->priv->pick_buffer_mode != mode)
-    return FALSE;
+  /* if (stage->priv->pick_buffer_mode != mode) */
+  /*   return FALSE; */
 
-  return stage->priv->have_valid_pick_buffer;
+  /* return stage->priv->have_valid_pick_buffer; */
+  return FALSE;
 }
 
 static void
