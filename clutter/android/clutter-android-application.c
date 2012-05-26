@@ -36,6 +36,7 @@
 #include "clutter-marshal.h"
 #include "clutter-private.h"
 #include "clutter-device-manager-private.h"
+#include "clutter-event-private.h"
 #include "clutter-stage-private.h"
 
 #include "clutter-android-application-private.h"
@@ -339,8 +340,7 @@ clutter_android_handle_input (struct android_app *app,
     }
 
   if (process)
-    clutter_do_event (event);
-  clutter_event_free (event);
+    _clutter_event_push (event, FALSE);
 
   return (int32_t) process;
 }

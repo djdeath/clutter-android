@@ -23,6 +23,7 @@
 
 #include "clutter-backend-android.h"
 #include "clutter-device-manager-android.h"
+#include "clutter-event-android.h"
 
 #include "clutter-debug.h"
 #include "clutter-private.h"
@@ -66,6 +67,21 @@ clutter_backend_android_dispose (GObject *object)
   G_OBJECT_CLASS (clutter_backend_android_parent_class)->dispose (object);
 }
 
+static gboolean
+clutter_backend_android_post_parse (ClutterBackend  *backend,
+                                    GError         **error)
+{
+  ClutterBackendAndroid *backend_android = CLUTTER_BACKEND_ANDROID (backend);
+
+  backend_android->android_source = _clutter_event_source_android_new ();
+  g_source_attach (backend_android->android_source, NULL);
+
+  /* TODO: Maybe move the device manager initialization here...
+     IDUNNOLOL */
+
+  return TRUE;
+}
+
 static void
 clutter_backend_android_class_init (ClutterBackendAndroidClass *klass)
 {
@@ -75,4 +91,6 @@ clutter_backend_android_class_init (ClutterBackendAndroidClass *klass)
   object_class->dispose = clutter_backend_android_dispose;
 
   backend_class->stage_window_type = CLUTTER_TYPE_STAGE_ANDROID;
+
+  backend_class->post_parse = clutter_backend_android_post_parse;
 }
