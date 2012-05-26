@@ -1,9 +1,7 @@
-/* Clutter.
- * An OpenGL based 'interactive canvas' library.
+/* Clutter -  An OpenGL based 'interactive canvas' library.
+ * Android backend - initial entry point
  *
- * Copyright (C) 2006, 2007 OpenedHand
- * Copyright (C) 2010 Intel Corp
- *               2011 Giovanni Campagna <scampa.giovanni@gmail.com>
+ * Copyright (C) 2012 Intel Corporation
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,12 +17,11 @@
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *  Matthew Allum
- *  Robert Bragg
+ *  Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
  */
 
 #ifndef __CLUTTER_BACKEND_ANDROID_H__
-#define __CLUTTER_BACKEND_ANDROID__H__
+#define __CLUTTER_BACKEND_ANDROID_H__
 
 #include <glib-object.h>
 #include <clutter/clutter-event.h>

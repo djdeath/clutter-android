@@ -27,6 +27,7 @@
 
 #include <android_native_app_glue.h>
 #include <android/input.h>
+#include <android/window.h>
 
 #include <cogl/cogl.h>
 #include <glib-android/glib-android.h>
@@ -35,20 +36,14 @@
 #include "clutter-marshal.h"
 #include "clutter-private.h"
 #include "clutter-device-manager-private.h"
+#include "clutter-stage-private.h"
 
-#include "clutter-android-application.h"
-
-
-#include "deprecated/clutter-stage.h"
+#include "clutter-android-application-private.h"
+#include "clutter-stage-android.h"
 
 G_DEFINE_TYPE (ClutterAndroidApplication,
                clutter_android_application,
                G_TYPE_OBJECT)
-
-#define ANDROID_APPLICATION_PRIVATE(o)                            \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((o),                              \
-                                CLUTTER_TYPE_ANDROID_APPLICATION, \
-                                ClutterAndroidApplicationPrivate))
 
 enum
 {
@@ -59,21 +54,11 @@ enum
 
 static guint signals[LAST_SIGNAL] = { 0, };
 
-struct _ClutterAndroidApplicationPrivate
-{
-  struct android_app* android_application;
-
-  gint have_window : 1;
-  GMainLoop *wait_for_window;
-};
-
 static gboolean
 clutter_android_application_ready (ClutterAndroidApplication *application)
 {
-  ClutterAndroidApplicationPrivate *priv = application->priv;
-  g_message ("ready!");
-
-  cogl_android_set_native_window (priv->android_application->window);
+  g_message ("ready! %p", application->android_application->window);
+  cogl_android_set_native_window (application->android_application->window);
 
   return TRUE;
 }
@@ -88,8 +73,6 @@ static void
 clutter_android_application_class_init (ClutterAndroidApplicationClass *klass)
 {
   GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-  g_type_class_add_private (klass, sizeof (ClutterAndroidApplicationPrivate));
 
   object_class->finalize = clutter_android_application_finalize;
 
@@ -108,14 +91,19 @@ clutter_android_application_class_init (ClutterAndroidApplicationClass *klass)
 static void
 clutter_android_application_init (ClutterAndroidApplication *self)
 {
-  self->priv = ANDROID_APPLICATION_PRIVATE (self);
 }
 
-static ClutterAndroidApplication *
-clutter_android_application_new (void)
+ClutterAndroidApplication *
+_clutter_android_application_get_default (void)
 {
-  return g_object_new (CLUTTER_TYPE_ANDROID_APPLICATION, NULL);
+  static ClutterAndroidApplication *app = NULL;
+
+  if (G_LIKELY (app != NULL))
+    return app;
+
+  return (app = g_object_new (CLUTTER_TYPE_ANDROID_APPLICATION, NULL));
 }
+
 
 /*
  * Process the next main command.
@@ -125,10 +113,8 @@ clutter_android_handle_cmd (struct android_app *app,
                             int32_t             cmd)
 {
   ClutterAndroidApplication *application;
-  ClutterAndroidApplicationPrivate *priv;
 
   application = CLUTTER_ANDROID_APPLICATION (app->userData);
-  priv = application->priv;
 
   switch (cmd)
     {
@@ -139,15 +125,20 @@ clutter_android_handle_cmd (struct android_app *app,
         {
           gboolean initialized;
 
+          /* Remove the fullscreen we ask at activity creation to be
+             able to use it later if needed. */
+          ANativeActivity_setWindowFlags (application->android_application->activity,
+                                          0, AWINDOW_FLAG_FULLSCREEN);
+
           g_signal_emit (application, signals[READY], 0, &initialized);
 
           if (initialized)
-            priv->have_window = TRUE;
+            application->have_window = TRUE;
 
-          if (priv->wait_for_window)
+          if (application->wait_for_window)
             {
               g_message ("Waking up the waiting main loop");
-              g_main_loop_quit (priv->wait_for_window);
+              g_main_loop_quit (application->wait_for_window);
             }
         }
       break;
@@ -155,8 +146,8 @@ clutter_android_handle_cmd (struct android_app *app,
     case APP_CMD_TERM_WINDOW:
       /* The window is being hidden or closed, clean it up */
       g_message ("command: TERM_WINDOW");
-      if (priv->wait_for_window)
-        g_main_loop_quit (priv->wait_for_window);
+      if (application->wait_for_window)
+        g_main_loop_quit (application->wait_for_window);
       else
         clutter_main_quit ();
       exit (0);
@@ -167,10 +158,67 @@ clutter_android_handle_cmd (struct android_app *app,
       g_message ("command: GAINED_FOCUS");
       break;
 
+    case APP_CMD_WINDOW_RESIZED:
+      g_message ("command: window resized!");
+      if (app->window != NULL)
+        {
+          int32_t width = ANativeWindow_getWidth (app->window);
+          int32_t height = ANativeWindow_getHeight (app->window);
+          ClutterStage *stage = clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+
+          g_message ("resizing stage @ %ix%i", width, height);
+          clutter_actor_set_size (CLUTTER_ACTOR (stage), width, height);
+        }
+      break;
+
+    case APP_CMD_WINDOW_REDRAW_NEEDED:
+      g_message ("command: REDRAW_NEEDED");
+      if (app->window != NULL)
+        {
+          int32_t width = ANativeWindow_getWidth (app->window);
+          int32_t height = ANativeWindow_getHeight (app->window);
+          ClutterStage *stage = clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+          ClutterStageCogl *stage_cogl = CLUTTER_STAGE_COGL (_clutter_stage_get_window (stage));
+
+          g_message ("stage size %fx%f",
+                     clutter_actor_get_width (CLUTTER_ACTOR (stage)),
+                     clutter_actor_get_height (CLUTTER_ACTOR (stage)));
+          if (clutter_actor_get_width (CLUTTER_ACTOR (stage)) != width ||
+              clutter_actor_get_height (CLUTTER_ACTOR (stage)) != height)
+            {
+              g_message ("resizing stage @ %ix%i", width, height);
+              cogl_android_onscreen_update_size (stage_cogl->onscreen,
+                                                 width, height);
+              clutter_actor_queue_relayout (CLUTTER_ACTOR (stage));
+              /* clutter_actor_set_size (CLUTTER_ACTOR (stage), width, height); */
+            }
+        }
+      break;
+
+    case APP_CMD_CONTENT_RECT_CHANGED:
+      g_message ("command: CONTENT_RECT_CHANGED");
+      break;
+
     case APP_CMD_LOST_FOCUS:
       /* When our app loses focus, we stop monitoring the accelerometer.
        * This is to avoid consuming battery while not being used. */
       g_message ("command: LOST_FOCUS");
+      break;
+
+    case APP_CMD_START:
+      g_message ("command: START");
+      break;
+
+    case APP_CMD_STOP:
+      g_message ("command: STOP");
+      break;
+
+    case APP_CMD_PAUSE:
+      g_message ("command: PAUSE");
+      break;
+
+    case APP_CMD_DESTROY:
+      g_message ("command: PAUSE");
       break;
     }
 }
@@ -181,10 +229,6 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
   int32_t action;
   ClutterDeviceManager *manager;
   ClutterInputDevice *pointer_device;
-
-  /* g_message ("\tbutton/motion event: (%.02lf,%0.2lf)", */
-  /*            AMotionEvent_getX (a_event, 0), */
-  /*            AMotionEvent_getY (a_event, 0)); */
 
   manager = clutter_device_manager_get_default ();
   pointer_device =
@@ -197,7 +241,6 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
   switch (action & AMOTION_EVENT_ACTION_MASK)
     {
     case AMOTION_EVENT_ACTION_DOWN:
-      /* g_message ("\tPress"); */
       event->button.type = event->type = CLUTTER_BUTTON_PRESS;
       event->button.button = 1;
       event->button.click_count = 1;
@@ -208,7 +251,6 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_UP:
-      /* g_message ("\tRelease"); */
       event->button.type = event->type = CLUTTER_BUTTON_RELEASE;
       event->button.button = 1;
       event->button.click_count = 1;
@@ -219,9 +261,9 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_MOVE:
-      /* g_message ("\tMove"); */
       event->motion.type = event->type = CLUTTER_MOTION;
       event->motion.device = pointer_device;
+       /* TODO: Following line is a massive hack for touch screen */
       event->motion.modifier_state = CLUTTER_BUTTON1_MASK;
       event->motion.time = AMotionEvent_getEventTime (a_event);
       event->motion.x = AMotionEvent_getX (a_event, 0);
@@ -303,42 +345,20 @@ clutter_android_handle_input (struct android_app *app,
   return (int32_t) process;
 }
 
-/* XXX: We should be able to get rid of that */
-static gboolean
-check_ready (gpointer user_data)
-{
-  ClutterAndroidApplication *application = user_data;
-  ClutterAndroidApplicationPrivate *priv = application->priv;
-
-  if (priv->have_window && priv->wait_for_window)
-    {
-      g_main_loop_quit (priv->wait_for_window);
-      return FALSE;
-    }
-
-  if (priv->have_window)
-    return FALSE;
-
-  return TRUE;
-}
-
 void
 clutter_android_application_run (ClutterAndroidApplication *application)
 {
-  ClutterAndroidApplicationPrivate *priv = application->priv;;
-
   g_return_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application));
 
-  /* XXX: eeew. We wait to have a window to initialize Clutter and thus to
-   * enter the clutter main loop */
-  if (!priv->have_window)
+  /* XXX: eeew. We wait to have a window to initialize Clutter and
+   * thus to enter the clutter main loop */
+  if (!application->have_window)
     {
       g_message ("Waiting for the window");
-      priv->wait_for_window = g_main_loop_new (NULL, FALSE);
-      g_timeout_add (1000, check_ready, application);
-      g_main_loop_run (priv->wait_for_window);
-      g_main_loop_unref (priv->wait_for_window);
-      priv->wait_for_window = NULL;
+      application->wait_for_window = g_main_loop_new (NULL, FALSE);
+      g_main_loop_run (application->wait_for_window);
+      g_main_loop_unref (application->wait_for_window);
+      application->wait_for_window = NULL;
     }
 
   g_message ("entering main loop");
@@ -350,9 +370,8 @@ clutter_android_application_get_asset_manager (ClutterAndroidApplication *applic
 {
   g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), NULL);
 
-  return application->priv->android_application->activity->assetManager;
+  return application->android_application->activity->assetManager;
 }
-
 
 /*
  * This is the main entry point of a native application that is using
@@ -363,7 +382,12 @@ void
 android_main (struct android_app* android_application)
 {
   ClutterAndroidApplication *clutter_application;
-  ClutterAndroidApplicationPrivate *priv;
+
+  /* If we don't ask for the fullscreen flag on activity creation,
+     using this API later kills the app... WHY?? WHYYYYY??? */
+  if (android_application->activity)
+    ANativeActivity_setWindowFlags (android_application->activity,
+                                    AWINDOW_FLAG_FULLSCREEN, 0);
 
   /* Make sure glue isn't stripped */
   app_dummy ();
@@ -371,14 +395,13 @@ android_main (struct android_app* android_application)
   g_type_init ();
   g_android_init ();
 
-  clutter_application = clutter_android_application_new ();
-  priv = clutter_application->priv;
+  clutter_application = _clutter_android_application_get_default ();
 
   android_application->userData = clutter_application;
   android_application->onAppCmd = clutter_android_handle_cmd;
   android_application->onInputEvent = clutter_android_handle_input;
 
-  priv->android_application = android_application;
+  clutter_application->android_application = android_application;
 
   clutter_android_main (clutter_application);
 }

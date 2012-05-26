@@ -57,13 +57,6 @@ typedef struct _ClutterAndroidApplication ClutterAndroidApplication;
 typedef struct _ClutterAndroidApplicationClass ClutterAndroidApplicationClass;
 typedef struct _ClutterAndroidApplicationPrivate ClutterAndroidApplicationPrivate;
 
-struct _ClutterAndroidApplication
-{
-  GObject parent;
-
-  ClutterAndroidApplicationPrivate *priv;
-};
-
 struct _ClutterAndroidApplicationClass
 {
   GObjectClass parent_class;
