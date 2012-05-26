@@ -27,7 +27,7 @@
 #include "clutter-debug.h"
 #include "clutter-private.h"
 #include "clutter-stage-private.h"
-#include "cogl/clutter-stage-cogl.h"
+#include "clutter-stage-android.h"
 
 #include "cogl/cogl.h"
 
@@ -74,5 +74,5 @@ clutter_backend_android_class_init (ClutterBackendAndroidClass *klass)
 
   object_class->dispose = clutter_backend_android_dispose;
 
-  backend_class->stage_window_type = CLUTTER_TYPE_STAGE_COGL;
+  backend_class->stage_window_type = CLUTTER_TYPE_STAGE_ANDROID;
 }
