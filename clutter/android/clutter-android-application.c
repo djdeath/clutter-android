@@ -341,6 +341,8 @@ clutter_android_handle_input (struct android_app *app,
 
   if (process)
     _clutter_event_push (event, FALSE);
+  else
+    clutter_event_free (event);
 
   return (int32_t) process;
 }
