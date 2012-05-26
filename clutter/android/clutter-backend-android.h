@@ -45,6 +45,8 @@ typedef struct _ClutterBackendAndroidClass  ClutterBackendAndroidClass;
 struct _ClutterBackendAndroid
 {
   ClutterBackend parent_instance;
+
+  GSource *android_source;
 };
 
 struct _ClutterBackendAndroidClass
