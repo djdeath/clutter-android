@@ -25,7 +25,6 @@
 #include <stdlib.h>
 #include <config.h>
 
-#include <android_native_app_glue.h>
 #include <android/input.h>
 #include <android/window.h>
 
@@ -41,6 +40,9 @@
 
 #include "clutter-android-application-private.h"
 #include "clutter-stage-android.h"
+
+#include "android_native_app_glue.h"
+#include "android_jni_utils.h"
 
 G_DEFINE_TYPE (ClutterAndroidApplication,
                clutter_android_application,
@@ -155,10 +157,6 @@ clutter_android_handle_cmd (struct android_app *app,
       //test_fini (data);
       break;
 
-    case APP_CMD_GAINED_FOCUS:
-      g_message ("command: GAINED_FOCUS");
-      break;
-
     case APP_CMD_WINDOW_RESIZED:
       g_message ("command: window resized!");
       if (app->window != NULL)
@@ -200,6 +198,10 @@ clutter_android_handle_cmd (struct android_app *app,
       g_message ("command: CONTENT_RECT_CHANGED");
       break;
 
+    case APP_CMD_GAINED_FOCUS:
+      g_message ("command: GAINED_FOCUS");
+      break;
+
     case APP_CMD_LOST_FOCUS:
       /* When our app loses focus, we stop monitoring the accelerometer.
        * This is to avoid consuming battery while not being used. */
@@ -225,9 +227,10 @@ clutter_android_handle_cmd (struct android_app *app,
 }
 
 static gboolean
-translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
+translate_motion_event (AInputEvent *a_event)
 {
   int32_t action;
+  ClutterEvent *event;
   ClutterDeviceManager *manager;
   ClutterInputDevice *pointer_device;
 
@@ -235,14 +238,13 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
   pointer_device =
     clutter_device_manager_get_core_device (manager,
                                             CLUTTER_POINTER_DEVICE);
-  _clutter_input_device_set_stage (pointer_device, event->any.stage);
 
   action = AMotionEvent_getAction (a_event);
 
   switch (action & AMOTION_EVENT_ACTION_MASK)
     {
     case AMOTION_EVENT_ACTION_DOWN:
-      event->button.type = event->type = CLUTTER_BUTTON_PRESS;
+      event = clutter_event_new (CLUTTER_BUTTON_PRESS);
       event->button.button = 1;
       event->button.click_count = 1;
       event->button.device = pointer_device;
@@ -252,7 +254,7 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_UP:
-      event->button.type = event->type = CLUTTER_BUTTON_RELEASE;
+      event = clutter_event_new (CLUTTER_BUTTON_RELEASE);
       event->button.button = 1;
       event->button.click_count = 1;
       event->button.device = pointer_device;
@@ -262,7 +264,7 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_MOVE:
-      event->motion.type = event->type = CLUTTER_MOTION;
+      event = clutter_event_new (CLUTTER_MOTION);
       event->motion.device = pointer_device;
        /* TODO: Following line is a massive hack for touch screen */
       event->motion.modifier_state = CLUTTER_BUTTON1_MASK;
@@ -276,39 +278,63 @@ translate_motion_event (ClutterEvent *event, AInputEvent *a_event)
       return FALSE;
     }
 
+  event->any.stage =
+    clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+  _clutter_input_device_set_stage (pointer_device, event->any.stage);
+
+  _clutter_event_push (event, FALSE);
+
   return TRUE;
 }
 
 static gboolean
-translate_key_event (ClutterEvent *event, AInputEvent *a_event)
+translate_key_event (AInputEvent *a_event)
 {
   int32_t state;
+  ClutterEvent *event;
+  ClutterDeviceManager *manager;
+  ClutterInputDevice *keyboard_device;
 
-  /* g_message ("\tbutton/motion event: (%.02lf,%0.2lf)", */
-  /*            AMotionEvent_getX (a_event, 0), */
-  /*            AMotionEvent_getY (a_event, 0)); */
+  g_message ("key event");
 
   state = AMotionEvent_getMetaState (a_event);
 
-  event->key.unicode_value = AKeyEvent_getKeyCode (a_event);
+  manager = clutter_device_manager_get_default ();
+  keyboard_device =
+    clutter_device_manager_get_core_device (manager,
+                                            CLUTTER_KEYBOARD_DEVICE);
+
+  g_message ("\tflags = %x keycode = %i",
+             AKeyEvent_getFlags (a_event),
+             AKeyEvent_getKeyCode (a_event));
 
   switch (state)
     {
     case AKEY_STATE_UP:
-      /* g_message ("\tkey release"); */
-      event->type = event->key.type = CLUTTER_KEY_RELEASE;
+      g_message ("\tkey release");
+      event = clutter_event_new (CLUTTER_KEY_RELEASE);
       break;
 
     case AKEY_STATE_DOWN:
     case AKEY_STATE_VIRTUAL: /* TODO: Should we synthetize release? */
-      /* g_message ("\tkey press"); */
-      event->type = event->key.type = CLUTTER_KEY_PRESS;
+      g_message ("\tkey press");
+      event = clutter_event_new (CLUTTER_KEY_PRESS);
       break;
 
     default:
-      /* g_message ("\tmeh? %i", state); */
+      g_message ("\tmeh? %i", state);
       return FALSE;
     }
+
+  event->key.unicode_value = AKeyEvent_getKeyCode (a_event);
+  g_message ("\tunicode value = %i", AKeyEvent_getKeyCode (a_event));
+  event->key.device = keyboard_device;
+
+  event->any.stage =
+    clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+  _clutter_input_device_set_stage (keyboard_device, event->any.stage);
+
+  _clutter_event_push (event, FALSE);
 
   return TRUE;
 }
@@ -320,29 +346,18 @@ static int32_t
 clutter_android_handle_input (struct android_app *app,
                               AInputEvent        *a_event)
 {
-  ClutterEvent *event;
   gboolean process = FALSE;
 
   g_message ("input!");
 
-  event = clutter_event_new (CLUTTER_NOTHING);
-  event->any.stage =
-    clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
-
-  g_message ("plop!");
   if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_KEY)
     {
-      process = translate_key_event (event, a_event);
+      process = translate_key_event (a_event);
     }
   else if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_MOTION)
     {
-      process = translate_motion_event (event, a_event);
+      process = translate_motion_event (a_event);
     }
-
-  if (process)
-    _clutter_event_push (event, FALSE);
-  else
-    clutter_event_free (event);
 
   return (int32_t) process;
 }
@@ -373,6 +388,43 @@ clutter_android_application_get_asset_manager (ClutterAndroidApplication *applic
   g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), NULL);
 
   return application->android_application->activity->assetManager;
+}
+
+void
+clutter_android_application_show_keyboard (ClutterAndroidApplication *application,
+                                           gboolean show_keyboard,
+                                           gboolean implicit)
+{
+  jint ret;
+
+  g_return_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application));
+
+  if (show_keyboard)
+    {
+      g_message ("showing keyboard");
+      if (implicit)
+        ret = _android_show_keyboard (application->android_application,
+                                      JNI_TRUE,
+                                      ANATIVEACTIVITY_SHOW_SOFT_INPUT_IMPLICIT);
+      else
+        ret = _android_show_keyboard (application->android_application,
+                                      JNI_TRUE,
+                                      ANATIVEACTIVITY_SHOW_SOFT_INPUT_IMPLICIT);
+    }
+  else
+    {
+      g_message ("hiding keyboard");
+      if (implicit)
+        ret = _android_show_keyboard (application->android_application,
+                                JNI_FALSE,
+                                ANATIVEACTIVITY_HIDE_SOFT_INPUT_IMPLICIT_ONLY);
+      else
+        ret = _android_show_keyboard (application->android_application,
+                                JNI_FALSE,
+                                ANATIVEACTIVITY_HIDE_SOFT_INPUT_NOT_ALWAYS);
+    }
+
+  g_message ("THE FucK %i", ret);
 }
 
 /*

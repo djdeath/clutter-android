@@ -444,6 +444,7 @@ AS_IF([test "x$enable_android" = "xyes"],
         CLUTTER_INPUT_BACKENDS="$CLUTTER_INPUT_BACKENDS android"
 
         AC_DEFINE([HAVE_CLUTTER_ANDROID], [1], [Have the Android backend])
+        AC_PROG_CXX
 
         BACKEND_PC_FILES="$BACKEND_PC_FILES glib-android-1.0"
       ])
