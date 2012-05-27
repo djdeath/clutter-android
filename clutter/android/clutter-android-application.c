@@ -39,6 +39,7 @@
 #include "clutter-stage-private.h"
 
 #include "clutter-android-application-private.h"
+#include "clutter-android-keycodes.h"
 #include "clutter-stage-android.h"
 
 #include "android_native_app_glue.h"
@@ -334,7 +335,7 @@ translate_key_event (AInputEvent *a_event)
       return FALSE;
     }
 
-  _clutter_android_translate_key_event (event,
+  _clutter_android_translate_key_event ((ClutterKeyEvent *) event,
                                         application->modifier_state,
                                         a_event);
 
@@ -427,12 +428,12 @@ clutter_android_application_show_keyboard (ClutterAndroidApplication *applicatio
       g_message ("hiding keyboard");
       if (implicit)
         ret = _android_show_keyboard (application->android_application,
-                                JNI_FALSE,
-                                ANATIVEACTIVITY_HIDE_SOFT_INPUT_IMPLICIT_ONLY);
+                                      JNI_FALSE,
+                                      ANATIVEACTIVITY_HIDE_SOFT_INPUT_IMPLICIT_ONLY);
       else
         ret = _android_show_keyboard (application->android_application,
-                                JNI_FALSE,
-                                ANATIVEACTIVITY_HIDE_SOFT_INPUT_NOT_ALWAYS);
+                                      JNI_FALSE,
+                                      ANATIVEACTIVITY_HIDE_SOFT_INPUT_NOT_ALWAYS);
     }
 
   g_message ("THE FucK %i", ret);
