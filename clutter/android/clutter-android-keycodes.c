@@ -26,7 +26,7 @@
 
 #include <android/keycodes.h>
 
-static guint keycodes[AKEYCODE_BUTTON_MODE + 1] = {
+static const guint keycodes[AKEYCODE_BUTTON_MODE + 1] = {
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_UNKNOWN         = 0, */
   CLUTTER_KEY_Left, /* AKEYCODE_SOFT_LEFT       = 1, */
   CLUTTER_KEY_Right, /* AKEYCODE_SOFT_RIGHT      = 2, */
@@ -140,7 +140,7 @@ static guint keycodes[AKEYCODE_BUTTON_MODE + 1] = {
   CLUTTER_KEY_VoidSymbol /* AKEYCODE_BUTTON_MODE     = 110, */
 };
 
-static guint shifted_keycodes[AKEYCODE_BUTTON_MODE + 1] = {
+static const guint shifted_keycodes[AKEYCODE_BUTTON_MODE + 1] = {
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_UNKNOWN         = 0, */
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_SOFT_LEFT       = 1, */
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_SOFT_RIGHT      = 2, */
@@ -254,7 +254,7 @@ static guint shifted_keycodes[AKEYCODE_BUTTON_MODE + 1] = {
   CLUTTER_KEY_VoidSymbol /* AKEYCODE_BUTTON_MODE     = 110, */
 };
 
-static guint alted_keycodes[AKEYCODE_BUTTON_MODE + 1] = {
+static const guint alted_keycodes[AKEYCODE_BUTTON_MODE + 1] = {
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_UNKNOWN         = 0, */
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_SOFT_LEFT       = 1, */
   CLUTTER_KEY_VoidSymbol, /* AKEYCODE_SOFT_RIGHT      = 2, */
