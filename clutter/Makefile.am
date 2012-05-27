@@ -536,8 +536,9 @@ android_source_c = \
 android_source_c_priv = \
 	$(srcdir)/android/android_jni_utils.cpp \
 	$(srcdir)/android/android_native_app_glue.c \
-	$(srcdir)/android/clutter-device-manager-android.c \
+	$(srcdir)/android/clutter-android-keycodes.c \
 	$(srcdir)/android/clutter-backend-android.c \
+	$(srcdir)/android/clutter-device-manager-android.c \
 	$(srcdir)/android/clutter-event-android.c \
 	$(srcdir)/android/clutter-stage-android.c \
 	$(NULL)
@@ -550,8 +551,9 @@ android_source_h = \
 android_source_h_priv = \
 	$(srcdir)/android/android_jni_utils.h \
 	$(srcdir)/android/android_native_app_glue.h \
-	$(srcdir)/android/clutter-device-manager-android.h \
+	$(srcdir)/android/clutter-android-keycodes.h \
 	$(srcdir)/android/clutter-backend-android.h \
+	$(srcdir)/android/clutter-device-manager-android.h \
 	$(srcdir)/android/clutter-event-android.h \
 	$(srcdir)/android/clutter-stage-android.h \
 	$(NULL)
