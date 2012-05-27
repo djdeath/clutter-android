@@ -290,51 +290,62 @@ translate_motion_event (AInputEvent *a_event)
 static gboolean
 translate_key_event (AInputEvent *a_event)
 {
-  int32_t state;
+  int32_t action;
   ClutterEvent *event;
   ClutterDeviceManager *manager;
   ClutterInputDevice *keyboard_device;
+  ClutterAndroidApplication *application =
+    _clutter_android_application_get_default ();
+  int32_t new_modifier_state = application->modifier_state;
 
-  g_message ("key event");
-
-  state = AMotionEvent_getMetaState (a_event);
+  action = AKeyEvent_getAction (a_event);
 
   manager = clutter_device_manager_get_default ();
   keyboard_device =
     clutter_device_manager_get_core_device (manager,
                                             CLUTTER_KEYBOARD_DEVICE);
 
-  g_message ("\tflags = %x keycode = %i",
+  g_message ("\taction = %i flags = %x meta = %x keycode = %i",
+             AKeyEvent_getAction (a_event),
              AKeyEvent_getFlags (a_event),
+             AKeyEvent_getMetaState (a_event),
              AKeyEvent_getKeyCode (a_event));
 
-  switch (state)
+  switch (action)
     {
-    case AKEY_STATE_UP:
-      g_message ("\tkey release");
-      event = clutter_event_new (CLUTTER_KEY_RELEASE);
-      break;
-
-    case AKEY_STATE_DOWN:
-    case AKEY_STATE_VIRTUAL: /* TODO: Should we synthetize release? */
+    case AKEY_EVENT_ACTION_DOWN:
       g_message ("\tkey press");
       event = clutter_event_new (CLUTTER_KEY_PRESS);
+      new_modifier_state |= AKeyEvent_getMetaState (a_event);
       break;
 
+    case AKEY_EVENT_ACTION_UP:
+      g_message ("\tkey release");
+      event = clutter_event_new (CLUTTER_KEY_RELEASE);
+      new_modifier_state &= ~AKeyEvent_getMetaState (a_event);
+      break;
+
+    case AKEY_EVENT_ACTION_MULTIPLE:
+      g_message ("\tcomplex string");
+      return FALSE;
+
     default:
-      g_message ("\tmeh? %i", state);
+      g_message ("\tmeh? %i", action);
       return FALSE;
     }
 
-  event->key.unicode_value = AKeyEvent_getKeyCode (a_event);
-  g_message ("\tunicode value = %i", AKeyEvent_getKeyCode (a_event));
-  event->key.device = keyboard_device;
+  _clutter_android_translate_key_event (event,
+                                        application->modifier_state,
+                                        a_event);
 
+  event->key.device = keyboard_device;
   event->any.stage =
     clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
   _clutter_input_device_set_stage (keyboard_device, event->any.stage);
 
   _clutter_event_push (event, FALSE);
+
+  application->modifier_state = new_modifier_state;
 
   return TRUE;
 }

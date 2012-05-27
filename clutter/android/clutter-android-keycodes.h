@@ -1,9 +1,7 @@
-/*
- * Clutter.
+/* Clutter -  An OpenGL based 'interactive canvas' library.
+ * Android backend - initial entry point
  *
- * An OpenGL based 'interactive canvas' library.
- *
- * Copyright (C) 2012 Intel Corporation.
+ * Copyright (C) 2012 Intel Corporation
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,28 +17,18 @@
  * License along with this library. If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- *   Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
+ *  Lionel Landwerlin <lionel.g.landwerlin@linux.intel.com>
  */
 
-#ifndef __CLUTTER_ANDROID_APPLICATION_PRIVATE_H__
-#define __CLUTTER_ANDROID_APPLICATION_PRIVATE_H__
+#ifndef __CLUTTER_ANDROID_KEYCODES_H__
+#define __CLUTTER_ANDROID_KEYCODES_H__
 
-#include "android_native_app_glue.h"
+#include <clutter/clutter-event.h>
 
-#include "clutter-android-application.h"
+#include <android/input.h>
 
-struct _ClutterAndroidApplication
-{
-  GObject parent;
+void _clutter_android_translate_key_event (ClutterKeyEvent *event,
+                                           int32_t modifier_state,
+                                           AInputEvent *a_event);
 
-  struct android_app* android_application;
-
-  int32_t modifier_state;
-
-  gint have_window : 1;
-  GMainLoop *wait_for_window;
-};
-
-ClutterAndroidApplication *_clutter_android_application_get_default (void);
-
-#endif /* __CLUTTER_ANDROID_APPLICATION_PRIVATE_H__ */
+#endif /* __CLUTTER_ANDROID_KEYCODES_H__ */
