@@ -70,8 +70,11 @@ void clutter_android_main (ClutterAndroidApplication *application);
 
 GType clutter_android_application_get_type (void) G_GNUC_CONST;
 
-void              clutter_android_application_run                   (ClutterAndroidApplication *application);
-AAssetManager *   clutter_android_application_get_asset_manager     (ClutterAndroidApplication *application);
+void clutter_android_application_show_keyboard (ClutterAndroidApplication *application,
+                                                gboolean show_keyboard,
+                                                gboolean implicit);
+void clutter_android_application_run (ClutterAndroidApplication *application);
+AAssetManager *clutter_android_application_get_asset_manager (ClutterAndroidApplication *application);
 
 G_END_DECLS
 
