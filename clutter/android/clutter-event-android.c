@@ -28,15 +28,22 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-#include "clutter-event.h"
+#include <glib.h>
+
+#include "clutter-event-private.h"
 #include "clutter-main.h"
 
 #include "clutter-event-android.h"
 
+
 typedef struct _ClutterEventSourceAndroid
 {
   GSource source;
+  GPollFD pfd;
+
+  int pipe[2];
 } ClutterEventSourceAndroid;
 
 static gboolean
@@ -59,10 +66,11 @@ static gboolean
 clutter_event_source_android_check (GSource *base)
 {
   gboolean retval;
+  ClutterEventSourceAndroid *source = (ClutterEventSourceAndroid *) base;
 
   clutter_threads_enter ();
 
-  retval = clutter_events_pending ();
+  retval = clutter_events_pending () || source->pfd.revents;
 
   clutter_threads_leave ();
 
@@ -74,11 +82,19 @@ clutter_event_source_android_dispatch (GSource *base,
 				       GSourceFunc callback,
 				       gpointer data)
 {
+  ClutterEventSourceAndroid *source = (ClutterEventSourceAndroid *) base;
   ClutterEvent *event;
+  int dummy;
 
   clutter_threads_enter ();
 
   event = clutter_event_get ();
+
+  if (source->pfd.revents)
+    {
+      read (source->pipe[0], &dummy, sizeof (dummy));
+      source->pfd.revents = 0;
+    }
 
   if (event)
     {
@@ -108,5 +124,28 @@ _clutter_event_source_android_new (void)
     g_source_new (&clutter_event_source_android_funcs,
                   sizeof (ClutterEventSourceAndroid));
 
+  if (pipe (source->pipe) == -1)
+    {
+      g_critical ("Cannot not create a pipe for event source");
+      g_source_unref (&source->source);
+      return NULL;
+    }
+
+  source->pfd.fd = source->pipe[0];
+  source->pfd.events = G_IO_IN | G_IO_ERR;
+  g_source_add_poll (&source->source, &source->pfd);
+
   return &source->source;
+}
+
+void
+_clutter_event_source_android_push_event (GSource *source,
+                                          ClutterEvent *event)
+{
+  ClutterEventSourceAndroid *asource = (ClutterEventSourceAndroid *) source;
+  const int dummy = 42;
+
+  _clutter_event_push (event, FALSE);
+
+  write (asource->pipe[1], &dummy, sizeof (dummy));
 }
