@@ -31,4 +31,7 @@
 
 GSource * _clutter_event_source_android_new (void);
 
+void _clutter_event_source_android_push_event (GSource *source,
+                                               ClutterEvent *event);
+
 #endif /* __CLUTTER_EVENT_ANDROID_H__ */

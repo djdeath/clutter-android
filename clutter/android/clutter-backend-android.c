@@ -64,6 +64,10 @@ clutter_backend_android_init (ClutterBackendAndroid *backend_android)
 static void
 clutter_backend_android_dispose (GObject *object)
 {
+  ClutterBackendAndroid *backend_android = CLUTTER_BACKEND_ANDROID (object);
+
+  g_source_unref (backend_android->android_source);
+
   G_OBJECT_CLASS (clutter_backend_android_parent_class)->dispose (object);
 }
 
