@@ -35,11 +35,11 @@
 #include "clutter-marshal.h"
 #include "clutter-private.h"
 #include "clutter-device-manager-private.h"
-#include "clutter-event-private.h"
 #include "clutter-stage-private.h"
 
 #include "clutter-android-application-private.h"
 #include "clutter-android-keycodes.h"
+#include "clutter-event-android.h"
 #include "clutter-stage-android.h"
 
 #include "android_native_app_glue.h"
@@ -227,7 +227,7 @@ clutter_android_handle_cmd (struct android_app *app,
     }
 }
 
-static gboolean
+static ClutterEvent *
 translate_motion_event (AInputEvent *a_event)
 {
   int32_t action;
@@ -276,19 +276,17 @@ translate_motion_event (AInputEvent *a_event)
 
     default:
       g_message ("\tmeh? %i\n", action);
-      return FALSE;
+      return NULL;
     }
 
   event->any.stage =
     clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
   _clutter_input_device_set_stage (pointer_device, event->any.stage);
 
-  _clutter_event_push (event, FALSE);
-
-  return TRUE;
+  return event;
 }
 
-static gboolean
+static ClutterEvent *
 translate_key_event (AInputEvent *a_event)
 {
   int32_t action;
@@ -328,11 +326,11 @@ translate_key_event (AInputEvent *a_event)
 
     case AKEY_EVENT_ACTION_MULTIPLE:
       g_message ("\tcomplex string");
-      return FALSE;
+      return NULL;
 
     default:
       g_message ("\tmeh? %i", action);
-      return FALSE;
+      return NULL;
     }
 
   _clutter_android_translate_key_event ((ClutterKeyEvent *) event,
@@ -344,11 +342,9 @@ translate_key_event (AInputEvent *a_event)
     clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
   _clutter_input_device_set_stage (keyboard_device, event->any.stage);
 
-  _clutter_event_push (event, FALSE);
-
   application->modifier_state = new_modifier_state;
 
-  return TRUE;
+  return event;
 }
 
 /**
@@ -358,20 +354,29 @@ static int32_t
 clutter_android_handle_input (struct android_app *app,
                               AInputEvent        *a_event)
 {
-  gboolean process = FALSE;
+  ClutterEvent *event = NULL;
 
   g_message ("input!");
 
   if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_KEY)
     {
-      process = translate_key_event (a_event);
+      event = translate_key_event (a_event);
     }
   else if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_MOTION)
     {
-      process = translate_motion_event (a_event);
+      event = translate_motion_event (a_event);
     }
 
-  return (int32_t) process;
+  if (event != NULL)
+    {
+      ClutterBackendAndroid *backend = (ClutterBackendAndroid *) clutter_get_default_backend ();
+
+      _clutter_event_source_android_push_event (backend->android_source, event);
+
+      return TRUE;
+    }
+
+  return FALSE;
 }
 
 void
