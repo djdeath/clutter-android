@@ -189,7 +189,8 @@ enum
   PROP_USE_ALPHA,
   PROP_KEY_FOCUS,
   PROP_NO_CLEAR_HINT,
-  PROP_ACCEPT_FOCUS
+  PROP_ACCEPT_FOCUS,
+  PROP_SAMPLES_PER_PIXEL
 };
 
 enum
@@ -1709,6 +1710,12 @@ clutter_stage_set_property (GObject      *object,
       clutter_stage_set_accept_focus (stage, g_value_get_boolean (value));
       break;
 
+    case PROP_SAMPLES_PER_PIXEL:
+      cogl_framebuffer_set_samples_per_pixel (
+        _clutter_stage_window_get_active_framebuffer (CLUTTER_STAGE_WINDOW (stage->priv->impl)),
+        g_value_get_uint (value));
+      break;
+
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
       break;
@@ -1787,6 +1794,13 @@ clutter_stage_get_property (GObject    *gobject,
     case PROP_ACCEPT_FOCUS:
       g_value_set_boolean (value, priv->accept_focus);
       break;
+
+    case PROP_SAMPLES_PER_PIXEL:
+      g_value_set_uint (value,
+        cogl_framebuffer_get_samples_per_pixel (
+        _clutter_stage_window_get_active_framebuffer (CLUTTER_STAGE_WINDOW (priv->impl))));
+      break;
+
 
     default:
       G_OBJECT_WARN_INVALID_PROPERTY_ID (gobject, prop_id, pspec);
@@ -2075,6 +2089,20 @@ clutter_stage_class_init (ClutterStageClass *klass)
                                 FALSE,
                                 CLUTTER_PARAM_READWRITE);
   g_object_class_install_property (gobject_class, PROP_NO_CLEAR_HINT, pspec);
+
+  /**
+   * ClutterStage:samples-per-pixel:
+   *
+   * Set the number of samples per pixel on #ClutterStage.
+   *
+   * Since: 1.12
+   */
+  pspec = g_param_spec_uint ("samples-per-pixel",
+                             P_("Samples per pixel"),
+                             P_("Number of samples per pixel"),
+                             0, G_MAXUINT, 0,
+                             CLUTTER_PARAM_READWRITE);
+  g_object_class_install_property (gobject_class, PROP_SAMPLES_PER_PIXEL, pspec);
 
   /**
    * ClutterStage:accept-focus:
