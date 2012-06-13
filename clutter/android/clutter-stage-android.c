@@ -71,8 +71,6 @@ clutter_stage_android_set_fullscreen (ClutterStageWindow *stage_window,
 
   application = _clutter_android_application_get_default ();
 
-  g_message ("switching fullscreen to %i", is_fullscreen);
-
   if (is_fullscreen)
     {
       ANativeActivity_setWindowFlags (application->android_application->activity,
