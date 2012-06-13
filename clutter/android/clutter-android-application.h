@@ -76,6 +76,10 @@ void clutter_android_application_show_keyboard (ClutterAndroidApplication *appli
 void clutter_android_application_run (ClutterAndroidApplication *application);
 AAssetManager *clutter_android_application_get_asset_manager (ClutterAndroidApplication *application);
 
+void clutter_android_application_set_enable_touch (ClutterAndroidApplication *application,
+                                                   gboolean touch_enabled);
+gboolean clutter_android_application_get_enable_touch (ClutterAndroidApplication *application);
+
 G_END_DECLS
 
 #endif /* __CLUTTER_ANDROID_APPLICATION_H__ */

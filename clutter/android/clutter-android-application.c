@@ -45,6 +45,30 @@
 #include "android_native_app_glue.h"
 #include "android_jni_utils.h"
 
+#if 1
+#define DEBUG_KEY(args...) g_message (args)
+#else
+#define DEBUG_KEY(args...)
+#endif
+
+#if 0
+#define DEBUG_BUTTON(args...) g_message (args)
+#else
+#define DEBUG_BUTTON(args...)
+#endif
+
+#if 0
+#define DEBUG_TOUCH(args...) g_message (args)
+#else
+#define DEBUG_TOUCH(args...)
+#endif
+
+#if 1
+#define DEBUG_APP(args...) g_message (args)
+#else
+#define DEBUG_APP(args...)
+#endif
+
 G_DEFINE_TYPE (ClutterAndroidApplication,
                clutter_android_application,
                G_TYPE_OBJECT)
@@ -61,7 +85,7 @@ static guint signals[LAST_SIGNAL] = { 0, };
 static gboolean
 clutter_android_application_ready (ClutterAndroidApplication *application)
 {
-  g_message ("ready! %p", application->android_application->window);
+  DEBUG_APP ("ready! %p", application->android_application->window);
   cogl_android_set_native_window (application->android_application->window);
 
   return TRUE;
@@ -95,6 +119,7 @@ clutter_android_application_class_init (ClutterAndroidApplicationClass *klass)
 static void
 clutter_android_application_init (ClutterAndroidApplication *self)
 {
+  self->touch_enabled = TRUE;
 }
 
 ClutterAndroidApplication *
@@ -124,7 +149,7 @@ clutter_android_handle_cmd (struct android_app *app,
     {
     case APP_CMD_INIT_WINDOW:
       /* The window is being shown, get it ready */
-      g_message ("command: INIT_WINDOW");
+      DEBUG_APP ("command: INIT_WINDOW");
       if (app->window != NULL)
         {
           gboolean initialized;
@@ -141,7 +166,7 @@ clutter_android_handle_cmd (struct android_app *app,
 
           if (application->wait_for_window)
             {
-              g_message ("Waking up the waiting main loop");
+              DEBUG_APP ("Waking up the waiting main loop");
               g_main_loop_quit (application->wait_for_window);
             }
         }
@@ -149,7 +174,7 @@ clutter_android_handle_cmd (struct android_app *app,
 
     case APP_CMD_TERM_WINDOW:
       /* The window is being hidden or closed, clean it up */
-      g_message ("command: TERM_WINDOW");
+      DEBUG_APP ("command: TERM_WINDOW");
       if (application->wait_for_window)
         g_main_loop_quit (application->wait_for_window);
       else
@@ -159,20 +184,20 @@ clutter_android_handle_cmd (struct android_app *app,
       break;
 
     case APP_CMD_WINDOW_RESIZED:
-      g_message ("command: window resized!");
+      DEBUG_APP ("command: window resized!");
       if (app->window != NULL)
         {
           int32_t width = ANativeWindow_getWidth (app->window);
           int32_t height = ANativeWindow_getHeight (app->window);
           ClutterStage *stage = clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
 
-          g_message ("resizing stage @ %ix%i", width, height);
+          DEBUG_APP ("resizing stage @ %ix%i", width, height);
           clutter_actor_set_size (CLUTTER_ACTOR (stage), width, height);
         }
       break;
 
     case APP_CMD_WINDOW_REDRAW_NEEDED:
-      g_message ("command: REDRAW_NEEDED");
+      DEBUG_APP ("command: REDRAW_NEEDED");
       if (app->window != NULL)
         {
           int32_t width = ANativeWindow_getWidth (app->window);
@@ -180,13 +205,13 @@ clutter_android_handle_cmd (struct android_app *app,
           ClutterStage *stage = clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
           ClutterStageCogl *stage_cogl = CLUTTER_STAGE_COGL (_clutter_stage_get_window (stage));
 
-          g_message ("stage size %fx%f",
+          DEBUG_APP ("stage size %fx%f",
                      clutter_actor_get_width (CLUTTER_ACTOR (stage)),
                      clutter_actor_get_height (CLUTTER_ACTOR (stage)));
           if (clutter_actor_get_width (CLUTTER_ACTOR (stage)) != width ||
               clutter_actor_get_height (CLUTTER_ACTOR (stage)) != height)
             {
-              g_message ("resizing stage @ %ix%i", width, height);
+              DEBUG_APP ("resizing stage @ %ix%i", width, height);
               cogl_android_onscreen_update_size (stage_cogl->onscreen,
                                                  width, height);
               clutter_actor_queue_relayout (CLUTTER_ACTOR (stage));
@@ -196,44 +221,45 @@ clutter_android_handle_cmd (struct android_app *app,
       break;
 
     case APP_CMD_CONTENT_RECT_CHANGED:
-      g_message ("command: CONTENT_RECT_CHANGED");
+      DEBUG_APP ("command: CONTENT_RECT_CHANGED");
       break;
 
     case APP_CMD_GAINED_FOCUS:
-      g_message ("command: GAINED_FOCUS");
+      DEBUG_APP ("command: GAINED_FOCUS");
       break;
 
     case APP_CMD_LOST_FOCUS:
       /* When our app loses focus, we stop monitoring the accelerometer.
        * This is to avoid consuming battery while not being used. */
-      g_message ("command: LOST_FOCUS");
+      DEBUG_APP ("command: LOST_FOCUS");
       break;
 
     case APP_CMD_START:
-      g_message ("command: START");
+      DEBUG_APP ("command: START");
       break;
 
     case APP_CMD_STOP:
-      g_message ("command: STOP");
+      DEBUG_APP ("command: STOP");
       break;
 
     case APP_CMD_PAUSE:
-      g_message ("command: PAUSE");
+      DEBUG_APP ("command: PAUSE");
       break;
 
     case APP_CMD_DESTROY:
-      g_message ("command: PAUSE");
+      DEBUG_APP ("command: PAUSE");
       break;
     }
 }
 
-static ClutterEvent *
-translate_motion_event (AInputEvent *a_event)
+static gboolean
+translate_motion_event_to_pointer_event (AInputEvent *a_event)
 {
   int32_t action;
   ClutterEvent *event;
   ClutterDeviceManager *manager;
   ClutterInputDevice *pointer_device;
+  ClutterBackendAndroid *backend;
 
   manager = clutter_device_manager_get_default ();
   pointer_device =
@@ -245,6 +271,7 @@ translate_motion_event (AInputEvent *a_event)
   switch (action & AMOTION_EVENT_ACTION_MASK)
     {
     case AMOTION_EVENT_ACTION_DOWN:
+      DEBUG_BUTTON ("BUTTON press\n");
       event = clutter_event_new (CLUTTER_BUTTON_PRESS);
       event->button.button = 1;
       event->button.click_count = 1;
@@ -255,6 +282,7 @@ translate_motion_event (AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_UP:
+      DEBUG_BUTTON ("BUTTON release\n");
       event = clutter_event_new (CLUTTER_BUTTON_RELEASE);
       event->button.button = 1;
       event->button.click_count = 1;
@@ -265,6 +293,7 @@ translate_motion_event (AInputEvent *a_event)
       break;
 
     case AMOTION_EVENT_ACTION_MOVE:
+      DEBUG_BUTTON ("BUTTON move\n");
       event = clutter_event_new (CLUTTER_MOTION);
       event->motion.device = pointer_device;
        /* TODO: Following line is a massive hack for touch screen */
@@ -275,22 +304,131 @@ translate_motion_event (AInputEvent *a_event)
       break;
 
     default:
-      g_message ("\tmeh? %i\n", action);
-      return NULL;
+      DEBUG_BUTTON ("BUTTON meh? %i/%x\n", action, action);
+      return FALSE;
     }
 
   event->any.stage =
     clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
   _clutter_input_device_set_stage (pointer_device, event->any.stage);
 
-  return event;
+  backend = (ClutterBackendAndroid *) clutter_get_default_backend ();
+  _clutter_event_source_android_push_event (backend->android_source, event);
+
+  return TRUE;
 }
 
-static ClutterEvent *
+static gboolean
+translate_motion_event_to_touch_event (ClutterAndroidApplication *application,
+                                       AInputEvent *a_event)
+{
+  int32_t pointer_index;
+  int32_t i, pointer_number;
+  int32_t action;
+  int64_t current_time;
+  ClutterStage *stage;
+  ClutterEvent *event;
+  ClutterDeviceManager *manager;
+  ClutterInputDevice *pointer_device;
+  ClutterBackendAndroid *backend;
+
+  backend = (ClutterBackendAndroid *) clutter_get_default_backend ();
+
+  stage =
+    clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+
+  manager = clutter_device_manager_get_default ();
+  pointer_device =
+    clutter_device_manager_get_core_device (manager,
+                                            CLUTTER_POINTER_DEVICE);
+  _clutter_input_device_set_stage (pointer_device, stage);
+
+  action = AMotionEvent_getAction (a_event);
+  pointer_index = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
+    AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
+  action &= AMOTION_EVENT_ACTION_MASK;
+  pointer_number = AMotionEvent_getPointerCount (a_event);
+
+  current_time = AMotionEvent_getEventTime (a_event);
+
+  DEBUG_TOUCH ("TOUCH id=%i pointer_number=%i action=%x\n",
+               pointer_index, pointer_number, action);
+
+  for (i = 0; i < pointer_number; i++)
+    {
+      int32_t current_id = AMotionEvent_getPointerId (a_event, i);
+
+      if (i == pointer_index)
+        {
+          switch (action)
+            {
+            case AMOTION_EVENT_ACTION_DOWN:
+            case AMOTION_EVENT_ACTION_POINTER_DOWN:
+              DEBUG_TOUCH ("\ttouch begin on id=%i\n", current_id);
+              event = clutter_event_new (CLUTTER_TOUCH_BEGIN);
+              break;
+
+            case AMOTION_EVENT_ACTION_UP:
+            case AMOTION_EVENT_ACTION_POINTER_UP:
+              DEBUG_TOUCH ("\ttouch end on id=%i\n", current_id);
+              event = clutter_event_new (CLUTTER_TOUCH_END);
+              break;
+
+            case AMOTION_EVENT_ACTION_CANCEL:
+            case AMOTION_EVENT_ACTION_OUTSIDE: /* TODO: unsure about this one */
+              event = clutter_event_new (CLUTTER_TOUCH_CANCEL);
+              break;
+
+            case AMOTION_EVENT_ACTION_MOVE:
+              event = clutter_event_new (CLUTTER_TOUCH_UPDATE);
+              break;
+
+            default:
+              DEBUG_TOUCH ("\tmeh? action=%i\n", action);
+              continue;
+            }
+        }
+      else
+        {
+          DEBUG_TOUCH ("\ttouch update on id=%i\n", current_id);
+          event = clutter_event_new (CLUTTER_TOUCH_UPDATE);
+        }
+
+      event->touch.time = current_time;
+      event->touch.x = AMotionEvent_getX (a_event, i);
+      event->touch.y = AMotionEvent_getY (a_event, i);
+      event->touch.device = pointer_device;
+      event->touch.modifier_state = application->modifier_state;
+      event->touch.sequence = (gpointer) current_id;
+
+      event->any.stage = stage;
+
+      _clutter_event_source_android_push_event (backend->android_source, event);
+    }
+
+  return TRUE;
+}
+
+static gboolean
+translate_motion_event (AInputEvent *a_event)
+{
+  int32_t source = AInputEvent_getSource (a_event);
+  ClutterAndroidApplication *application =
+    _clutter_android_application_get_default ();
+
+  if ((source != AINPUT_SOURCE_MOUSE) &&
+      application->touch_enabled)
+    return translate_motion_event_to_touch_event (application, a_event);
+
+  return translate_motion_event_to_pointer_event (a_event);
+}
+
+static gboolean
 translate_key_event (AInputEvent *a_event)
 {
   int32_t action;
   ClutterEvent *event;
+  ClutterBackendAndroid *backend;
   ClutterDeviceManager *manager;
   ClutterInputDevice *keyboard_device;
   ClutterAndroidApplication *application =
@@ -304,7 +442,7 @@ translate_key_event (AInputEvent *a_event)
     clutter_device_manager_get_core_device (manager,
                                             CLUTTER_KEYBOARD_DEVICE);
 
-  g_message ("\taction = %i flags = %x meta = %x keycode = %i",
+  DEBUG_KEY ("KEY action = %i flags = %x meta = %x keycode = %i",
              AKeyEvent_getAction (a_event),
              AKeyEvent_getFlags (a_event),
              AKeyEvent_getMetaState (a_event),
@@ -313,24 +451,24 @@ translate_key_event (AInputEvent *a_event)
   switch (action)
     {
     case AKEY_EVENT_ACTION_DOWN:
-      g_message ("\tkey press");
+      DEBUG_KEY ("\tkey press");
       event = clutter_event_new (CLUTTER_KEY_PRESS);
       new_modifier_state |= AKeyEvent_getMetaState (a_event);
       break;
 
     case AKEY_EVENT_ACTION_UP:
-      g_message ("\tkey release");
+      DEBUG_KEY ("\tkey release");
       event = clutter_event_new (CLUTTER_KEY_RELEASE);
       new_modifier_state &= ~AKeyEvent_getMetaState (a_event);
       break;
 
     case AKEY_EVENT_ACTION_MULTIPLE:
-      g_message ("\tcomplex string");
-      return NULL;
+      DEBUG_KEY ("\tcomplex string");
+      return FALSE;
 
     default:
-      g_message ("\tmeh? %i", action);
-      return NULL;
+      DEBUG_KEY ("\tmeh? %i", action);
+      return FALSE;
     }
 
   _clutter_android_translate_key_event ((ClutterKeyEvent *) event,
@@ -344,7 +482,10 @@ translate_key_event (AInputEvent *a_event)
 
   application->modifier_state = new_modifier_state;
 
-  return event;
+  backend = (ClutterBackendAndroid *) clutter_get_default_backend ();
+  _clutter_event_source_android_push_event (backend->android_source, event);
+
+  return TRUE;
 }
 
 /**
@@ -354,27 +495,10 @@ static int32_t
 clutter_android_handle_input (struct android_app *app,
                               AInputEvent        *a_event)
 {
-  ClutterEvent *event = NULL;
-
-  g_message ("input!");
-
   if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_KEY)
-    {
-      event = translate_key_event (a_event);
-    }
+    return translate_key_event (a_event);
   else if (AInputEvent_getType (a_event) == AINPUT_EVENT_TYPE_MOTION)
-    {
-      event = translate_motion_event (a_event);
-    }
-
-  if (event != NULL)
-    {
-      ClutterBackendAndroid *backend = (ClutterBackendAndroid *) clutter_get_default_backend ();
-
-      _clutter_event_source_android_push_event (backend->android_source, event);
-
-      return TRUE;
-    }
+    return translate_motion_event (a_event);
 
   return FALSE;
 }
@@ -388,14 +512,14 @@ clutter_android_application_run (ClutterAndroidApplication *application)
    * thus to enter the clutter main loop */
   if (!application->have_window)
     {
-      g_message ("Waiting for the window");
+      DEBUG_APP ("Waiting for the window");
       application->wait_for_window = g_main_loop_new (NULL, FALSE);
       g_main_loop_run (application->wait_for_window);
       g_main_loop_unref (application->wait_for_window);
       application->wait_for_window = NULL;
     }
 
-  g_message ("entering main loop");
+  DEBUG_APP ("entering main loop");
   clutter_main ();
 }
 
@@ -418,7 +542,7 @@ clutter_android_application_show_keyboard (ClutterAndroidApplication *applicatio
 
   if (show_keyboard)
     {
-      g_message ("showing keyboard");
+      DEBUG_APP ("showing keyboard");
       if (implicit)
         ret = _android_show_keyboard (application->android_application,
                                       JNI_TRUE,
@@ -430,7 +554,7 @@ clutter_android_application_show_keyboard (ClutterAndroidApplication *applicatio
     }
   else
     {
-      g_message ("hiding keyboard");
+      DEBUG_APP ("hiding keyboard");
       if (implicit)
         ret = _android_show_keyboard (application->android_application,
                                       JNI_FALSE,
@@ -440,8 +564,23 @@ clutter_android_application_show_keyboard (ClutterAndroidApplication *applicatio
                                       JNI_FALSE,
                                       ANATIVEACTIVITY_HIDE_SOFT_INPUT_NOT_ALWAYS);
     }
+}
 
-  g_message ("THE FucK %i", ret);
+void
+clutter_android_application_set_enable_touch (ClutterAndroidApplication *application,
+                                              gboolean touch_enabled)
+{
+  g_return_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application));
+
+  application->touch_enabled = !!touch_enabled;
+}
+
+gboolean
+clutter_android_application_get_enable_touch (ClutterAndroidApplication *application)
+{
+  g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), FALSE);
+
+  return application->touch_enabled;
 }
 
 /*

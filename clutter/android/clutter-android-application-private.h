@@ -37,7 +37,9 @@ struct _ClutterAndroidApplication
 
   int32_t modifier_state;
 
-  gint have_window : 1;
+  guint have_window : 1;
+  guint touch_enabled : 1;
+
   GMainLoop *wait_for_window;
 };
 
