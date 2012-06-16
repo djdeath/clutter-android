@@ -399,7 +399,10 @@ translate_motion_event_to_touch_event (ClutterAndroidApplication *application,
       event->touch.y = AMotionEvent_getY (a_event, i);
       event->touch.device = pointer_device;
       event->touch.modifier_state = application->modifier_state;
-      event->touch.sequence = (gpointer) current_id;
+      /* TODO: We should be allocating proper structures for
+         sequences, but for now it's ok (that explains the ugly kludge
+         with + 1) */
+      event->touch.sequence = (gpointer) (current_id + 1);
 
       event->any.stage = stage;
 
