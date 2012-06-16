@@ -83,7 +83,11 @@ typedef struct _ClutterVertex           ClutterVertex;
 typedef struct _ClutterBehaviour        ClutterBehaviour;
 typedef struct _ClutterShader           ClutterShader;
 
+typedef struct _ClutterInputDevice      ClutterInputDevice;
+
 typedef union _ClutterEvent             ClutterEvent;
+typedef struct _ClutterEventSequence    ClutterEventSequence;
+
 
 /**
  * ClutterPaintVolume:

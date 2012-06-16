@@ -115,8 +115,6 @@ typedef struct _ClutterStageStateEvent  ClutterStageStateEvent;
 typedef struct _ClutterCrossingEvent    ClutterCrossingEvent;
 typedef struct _ClutterTouchEvent       ClutterTouchEvent;
 
-typedef struct _ClutterEventSequence    ClutterEventSequence;
-
 /**
  * ClutterAnyEvent:
  * @type: event type
