@@ -323,7 +323,7 @@ translate_motion_event_to_touch_event (ClutterAndroidApplication *application,
                                        AInputEvent *a_event)
 {
   int32_t pointer_index;
-  int32_t i, pointer_number;
+  int32_t i, nb_pointers;
   int32_t action;
   int64_t current_time;
   ClutterStage *stage;
@@ -347,14 +347,14 @@ translate_motion_event_to_touch_event (ClutterAndroidApplication *application,
   pointer_index = (action & AMOTION_EVENT_ACTION_POINTER_INDEX_MASK) >>
     AMOTION_EVENT_ACTION_POINTER_INDEX_SHIFT;
   action &= AMOTION_EVENT_ACTION_MASK;
-  pointer_number = AMotionEvent_getPointerCount (a_event);
+  nb_pointers = AMotionEvent_getPointerCount (a_event);
 
   current_time = AMotionEvent_getEventTime (a_event);
 
-  DEBUG_TOUCH ("TOUCH id=%i pointer_number=%i action=%x\n",
-               pointer_index, pointer_number, action);
+  DEBUG_TOUCH ("TOUCH id=%i nb_pointers=%i action=%x\n",
+               pointer_index, nb_pointers, action);
 
-  for (i = 0; i < pointer_number; i++)
+  for (i = 0; i < nb_pointers; i++)
     {
       int32_t current_id = AMotionEvent_getPointerId (a_event, i);
 
@@ -364,18 +364,23 @@ translate_motion_event_to_touch_event (ClutterAndroidApplication *application,
             {
             case AMOTION_EVENT_ACTION_DOWN:
             case AMOTION_EVENT_ACTION_POINTER_DOWN:
-              DEBUG_TOUCH ("\ttouch begin on id=%i\n", current_id);
+              DEBUG_TOUCH ("\ttouch begin on id=%i/%i\n", current_id, i);
               event = clutter_event_new (CLUTTER_TOUCH_BEGIN);
               break;
 
             case AMOTION_EVENT_ACTION_UP:
             case AMOTION_EVENT_ACTION_POINTER_UP:
-              DEBUG_TOUCH ("\ttouch end on id=%i\n", current_id);
+              DEBUG_TOUCH ("\ttouch end on id=%i/%i\n", current_id, i);
               event = clutter_event_new (CLUTTER_TOUCH_END);
               break;
 
-            case AMOTION_EVENT_ACTION_CANCEL:
             case AMOTION_EVENT_ACTION_OUTSIDE: /* TODO: unsure about this one */
+              DEBUG_TOUCH ("\ttouch outside id=%i/%i!\n", current_id, i);
+              event = clutter_event_new (CLUTTER_TOUCH_CANCEL);
+              break;
+
+            case AMOTION_EVENT_ACTION_CANCEL:
+              DEBUG_TOUCH ("\ttouch cancel id=%i/%i!\n", current_id, i);
               event = clutter_event_new (CLUTTER_TOUCH_CANCEL);
               break;
 
