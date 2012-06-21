@@ -372,6 +372,8 @@ on_captured_event (ClutterActor      *stage,
     case CLUTTER_TOUCH_UPDATE:
       if (clutter_event_get_event_sequence (event) == priv->sequence)
         emit_drag_motion (action, actor, event);
+      else
+        emit_drag_end (action, actor, event);
       break;
 
     case CLUTTER_MOTION:
