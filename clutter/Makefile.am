@@ -108,6 +108,7 @@ source_h =					\
 	$(srcdir)/clutter-path-constraint.h	\
 	$(srcdir)/clutter-path.h		\
 	$(srcdir)/clutter-property-transition.h	\
+	$(srcdir)/clutter-rotate-action.h	\
 	$(srcdir)/clutter-script.h		\
 	$(srcdir)/clutter-scriptable.h		\
 	$(srcdir)/clutter-settings.h		\
@@ -187,6 +188,7 @@ source_c = \
 	$(srcdir)/clutter-path-constraint.c	\
 	$(srcdir)/clutter-path.c		\
 	$(srcdir)/clutter-property-transition.c	\
+	$(srcdir)/clutter-rotate-action.c	\
 	$(srcdir)/clutter-script.c		\
 	$(srcdir)/clutter-script-parser.c	\
 	$(srcdir)/clutter-scriptable.c		\
