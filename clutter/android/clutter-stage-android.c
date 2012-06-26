@@ -69,7 +69,7 @@ clutter_stage_android_set_fullscreen (ClutterStageWindow *stage_window,
   if (_clutter_stage_is_fullscreen (stage) == is_fullscreen)
     return;
 
-  application = _clutter_android_application_get_default ();
+  application = clutter_android_application_get_default ();
 
   if (is_fullscreen)
     {
