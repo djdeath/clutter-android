@@ -123,7 +123,7 @@ clutter_android_application_init (ClutterAndroidApplication *self)
 }
 
 ClutterAndroidApplication *
-_clutter_android_application_get_default (void)
+clutter_android_application_get_default (void)
 {
   static ClutterAndroidApplication *app = NULL;
 
@@ -422,7 +422,7 @@ translate_motion_event (AInputEvent *a_event)
 {
   int32_t source = AInputEvent_getSource (a_event);
   ClutterAndroidApplication *application =
-    _clutter_android_application_get_default ();
+    clutter_android_application_get_default ();
 
   if ((source != AINPUT_SOURCE_MOUSE) &&
       application->touch_enabled)
@@ -440,7 +440,7 @@ translate_key_event (AInputEvent *a_event)
   ClutterDeviceManager *manager;
   ClutterInputDevice *keyboard_device;
   ClutterAndroidApplication *application =
-    _clutter_android_application_get_default ();
+    clutter_android_application_get_default ();
   int32_t new_modifier_state = application->modifier_state;
 
   action = AKeyEvent_getAction (a_event);
@@ -613,7 +613,7 @@ android_main (struct android_app* android_application)
   g_type_init ();
   g_android_init ();
 
-  clutter_application = _clutter_android_application_get_default ();
+  clutter_application = clutter_android_application_get_default ();
 
   android_application->userData = clutter_application;
   android_application->onAppCmd = clutter_android_handle_cmd;
