@@ -70,6 +70,8 @@ void clutter_android_main (ClutterAndroidApplication *application);
 
 GType clutter_android_application_get_type (void) G_GNUC_CONST;
 
+ClutterAndroidApplication *clutter_android_application_get_default (void);
+
 void clutter_android_application_show_keyboard (ClutterAndroidApplication *application,
                                                 gboolean show_keyboard,
                                                 gboolean implicit);

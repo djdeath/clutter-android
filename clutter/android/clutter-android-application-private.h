@@ -43,6 +43,4 @@ struct _ClutterAndroidApplication
   GMainLoop *wait_for_window;
 };
 
-ClutterAndroidApplication *_clutter_android_application_get_default (void);
-
 #endif /* __CLUTTER_ANDROID_APPLICATION_PRIVATE_H__ */
