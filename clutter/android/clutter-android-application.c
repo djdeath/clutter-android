@@ -139,7 +139,8 @@ clutter_android_application_get_default (void)
  */
 static void
 clutter_android_handle_cmd (struct android_app *app,
-                            int32_t             cmd)
+                            int32_t             cmd,
+                            void               *data)
 {
   ClutterAndroidApplication *application;
 
