@@ -2265,6 +2265,7 @@ emit_event (ClutterEvent *event,
           parent == NULL ||         /* stage gets all events */
           is_key_event)             /* keyboard events are always emitted */
         {
+          g_message ("\temit event %p/%s", actor, G_OBJECT_TYPE_NAME (actor));
           g_ptr_array_add (event_tree, g_object_ref (actor));
         }
 
@@ -2333,11 +2334,13 @@ emit_touch_event (ClutterEvent       *event,
                                            event->touch.sequence)) != NULL))
     {
       /* sequence grab */
+      g_message ("emit grabbed touch event %p", event->touch.sequence);
       clutter_actor_event (grab_actor, event, FALSE);
     }
   else
     {
       /* no grab, time to capture and bubble */
+      g_message ("emit touch event %p", event->touch.sequence);
       emit_event (event, FALSE);
     }
 }
@@ -2424,9 +2427,7 @@ _clutter_process_event_details (ClutterActor        *stage,
                                 ClutterMainContext  *context,
                                 ClutterEvent        *event)
 {
-  ClutterInputDevice *device = NULL;
-
-  device = clutter_event_get_device (event);
+  ClutterInputDevice *device = clutter_event_get_device (event);
 
   switch (event->type)
     {
@@ -2467,7 +2468,7 @@ _clutter_process_event_details (ClutterActor        *stage,
 
             emit_pointer_event (event, device);
 
-            actor = _clutter_input_device_update (device, FALSE);
+            actor = _clutter_input_device_update (device, NULL, FALSE);
             if (actor != stage)
               {
                 ClutterEvent *crossing;
@@ -2601,7 +2602,7 @@ _clutter_process_event_details (ClutterActor        *stage,
                * get the actor underneath
                */
               if (device != NULL)
-                actor = _clutter_input_device_update (device, TRUE);
+                actor = _clutter_input_device_update (device, NULL, TRUE);
               else
                 {
                   CLUTTER_NOTE (EVENT, "No device found: picking");
@@ -2644,7 +2645,12 @@ _clutter_process_event_details (ClutterActor        *stage,
       case CLUTTER_TOUCH_END:
         {
           ClutterActor *actor;
+          ClutterEventSequence *sequence =
+            clutter_event_get_event_sequence (event);
           gfloat x, y;
+
+          if (event->type == CLUTTER_TOUCH_BEGIN)
+            _clutter_input_device_add_sequence (device, sequence);
 
           clutter_event_get_coords (event, &x, &y);
 
@@ -2653,9 +2659,15 @@ _clutter_process_event_details (ClutterActor        *stage,
            */
           if (event->any.source == NULL)
             {
-              actor = _clutter_stage_do_pick (CLUTTER_STAGE (stage),
-                                              x, y,
-                                              CLUTTER_PICK_REACTIVE);
+              if (device != NULL)
+                actor = _clutter_input_device_update (device, sequence, TRUE);
+              else
+                {
+                  actor = _clutter_stage_do_pick (CLUTTER_STAGE (stage),
+                                                  x, y,
+                                                  CLUTTER_PICK_REACTIVE);
+                }
+
               if (actor == NULL)
                 break;
 
@@ -2673,6 +2685,10 @@ _clutter_process_event_details (ClutterActor        *stage,
                         actor);
 
           emit_touch_event (event, device);
+
+          if (event->type == CLUTTER_TOUCH_END)
+            _clutter_input_device_remove_sequence (device, sequence);
+
           break;
         }
 
