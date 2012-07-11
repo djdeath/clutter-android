@@ -2265,7 +2265,6 @@ emit_event (ClutterEvent *event,
           parent == NULL ||         /* stage gets all events */
           is_key_event)             /* keyboard events are always emitted */
         {
-          g_message ("\temit event %p/%s", actor, G_OBJECT_TYPE_NAME (actor));
           g_ptr_array_add (event_tree, g_object_ref (actor));
         }
 

@@ -423,7 +423,7 @@ _clutter_input_device_set_coords (ClutterInputDevice   *device,
 
       if (info == NULL)
         {
-          g_message ("set coords on %p %ix%i", sequence, x, y);
+          /* g_message ("set coords on %p %ix%i", sequence, x, y); */
 
           info = g_new0 (ClutterTouchInfo, 1);
           info->sequence = sequence;
@@ -538,7 +538,7 @@ _clutter_input_device_associate_actor (ClutterInputDevice   *device,
 
       if (info == NULL)
         {
-          g_message ("associate actor on %p", sequence);
+          /* g_message ("associate actor on %p", sequence); */
           info = g_new0 (ClutterTouchInfo, 1);
           info->sequence = sequence;
           g_hash_table_insert (device->touch_sequences_info, sequence, info);
@@ -889,7 +889,7 @@ _clutter_input_device_update (ClutterInputDevice   *device,
   old_cursor_actor = _clutter_input_device_get_actor (device, sequence);
   new_cursor_actor =
     _clutter_stage_do_pick (stage, x, y, CLUTTER_PICK_REACTIVE);
-  g_message ("picking sequence=%p in device_update at %ix%i", sequence, x, y);
+  /* g_message ("picking sequence=%p in device_update at %ix%i", sequence, x, y); */
 
   /* if the pick could not find an actor then we do not update the
    * input device, to avoid ghost enter/leave events; the pick should
@@ -1492,7 +1492,7 @@ _clutter_input_device_add_sequence (ClutterInputDevice   *device,
   if (info != NULL)
     return;
 
-  g_message ("add sequence %p", sequence);
+  /* g_message ("add sequence %p", sequence); */
 
   info = g_new0 (ClutterTouchInfo, 1);
   info->sequence = sequence;
@@ -1518,8 +1518,10 @@ _clutter_input_device_remove_sequence (ClutterInputDevice   *device,
 
       sequences = g_list_remove (sequences, sequence);
 
+      g_message ("\t\t %p", sequences);
+
       g_hash_table_replace (device->inv_touch_sequence_actors,
-                            info->actor, sequence);
+                            info->actor, sequences);
     }
 
   g_hash_table_remove (device->touch_sequences_info, sequence);
