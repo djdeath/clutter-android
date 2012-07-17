@@ -34,6 +34,7 @@
 
 #include "clutter-event-private.h"
 #include "clutter-main.h"
+#include "clutter-private.h"
 
 #include "clutter-event-android.h"
 
@@ -51,13 +52,13 @@ clutter_event_source_android_prepare (GSource *base, gint *timeout)
 {
   gboolean retval;
 
-  clutter_threads_enter ();
+  _clutter_threads_acquire_lock ();
 
   *timeout = -1;
 
   retval = clutter_events_pending ();
 
-  clutter_threads_leave ();
+  _clutter_threads_release_lock ();
 
   return retval;
 }
@@ -68,11 +69,11 @@ clutter_event_source_android_check (GSource *base)
   gboolean retval;
   ClutterEventSourceAndroid *source = (ClutterEventSourceAndroid *) base;
 
-  clutter_threads_enter ();
+  _clutter_threads_acquire_lock ();
 
   retval = clutter_events_pending () || source->pfd.revents;
 
-  clutter_threads_leave ();
+  _clutter_threads_release_lock ();
 
   return retval;
 }
@@ -86,7 +87,7 @@ clutter_event_source_android_dispatch (GSource *base,
   ClutterEvent *event;
   int dummy;
 
-  clutter_threads_enter ();
+  _clutter_threads_acquire_lock ();
 
   event = clutter_event_get ();
 
@@ -103,7 +104,7 @@ clutter_event_source_android_dispatch (GSource *base,
       clutter_event_free (event);
     }
 
-  clutter_threads_leave ();
+  _clutter_threads_release_lock ();
 
   return TRUE;
 }
