@@ -86,7 +86,6 @@ static gboolean
 clutter_android_application_ready (ClutterAndroidApplication *application)
 {
   DEBUG_APP ("ready! %p", application->android_application->window);
-  cogl_android_set_native_window (application->android_application->window);
 
   return TRUE;
 }
@@ -154,16 +153,41 @@ clutter_android_handle_cmd (struct android_app *app,
       if (app->window != NULL)
         {
           gboolean initialized;
+          ClutterStage *stage = clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+
+          DEBUG_APP ("window = %p", application->android_application->window);
 
           /* Remove the fullscreen we ask at activity creation to be
              able to use it later if needed. */
-          ANativeActivity_setWindowFlags (application->android_application->activity,
-                                          0, AWINDOW_FLAG_FULLSCREEN);
+          if (!application->saved_onscreen)
+            {
+              cogl_android_set_native_window (application->android_application->window);
+              application->had_window_once = TRUE;
+              ANativeActivity_setWindowFlags (application->android_application->activity,
+                                              0, AWINDOW_FLAG_FULLSCREEN);
 
-          g_signal_emit (application, signals[READY], 0, &initialized);
+              g_signal_emit (application, signals[READY], 0, &initialized);
+            }
+          else
+            {
+              if (stage)
+                {
+                  ClutterStageCogl *stage_cogl = CLUTTER_STAGE_COGL (_clutter_stage_get_window (stage));
 
-          if (initialized)
-            application->have_window = TRUE;
+                  stage_cogl->onscreen = application->saved_onscreen;
+                  application->saved_onscreen = NULL;
+
+                  cogl_android_onscreen_update_native_window (stage_cogl->onscreen,
+                                                              application->android_application->window);
+
+                  clutter_actor_queue_relayout (CLUTTER_ACTOR (stage));
+                  clutter_actor_queue_redraw (CLUTTER_ACTOR (stage));
+                }
+              else
+                cogl_android_set_native_window (application->android_application->window);
+            }
+
+          application->have_window = TRUE;
 
           if (application->wait_for_window)
             {
@@ -176,12 +200,32 @@ clutter_android_handle_cmd (struct android_app *app,
     case APP_CMD_TERM_WINDOW:
       /* The window is being hidden or closed, clean it up */
       DEBUG_APP ("command: TERM_WINDOW");
-      if (application->wait_for_window)
-        g_main_loop_quit (application->wait_for_window);
+      application->have_window = FALSE;
+      if (application->state == CLUTTER_ANDROID_APPLICATION_STATE_DESTROYED)
+        {
+          DEBUG_APP ("quitting app");
+
+          if (application->wait_for_window)
+            g_main_loop_quit (application->wait_for_window);
+          else
+            clutter_main_quit ();
+        }
       else
-        clutter_main_quit ();
-      exit (0);
-      //test_fini (data);
+        {
+          ClutterStage *stage =
+            clutter_stage_manager_get_default_stage (clutter_stage_manager_get_default ());
+
+          DEBUG_APP ("saving Cogl onscreen in case of resume");
+
+          if (stage)
+            {
+              ClutterStageCogl *stage_cogl =
+                CLUTTER_STAGE_COGL (_clutter_stage_get_window (stage));
+
+              application->saved_onscreen = stage_cogl->onscreen;
+              stage_cogl->onscreen = NULL;
+            }
+        }
       break;
 
     case APP_CMD_WINDOW_RESIZED:
@@ -236,19 +280,23 @@ clutter_android_handle_cmd (struct android_app *app,
       break;
 
     case APP_CMD_START:
+      application->state = CLUTTER_ANDROID_APPLICATION_STATE_STARTED;
       DEBUG_APP ("command: START");
       break;
 
     case APP_CMD_STOP:
+      application->state = CLUTTER_ANDROID_APPLICATION_STATE_STOPPED;
       DEBUG_APP ("command: STOP");
       break;
 
     case APP_CMD_PAUSE:
+      application->state = CLUTTER_ANDROID_APPLICATION_STATE_PAUSED;
       DEBUG_APP ("command: PAUSE");
       break;
 
     case APP_CMD_DESTROY:
-      DEBUG_APP ("command: PAUSE");
+      application->state = CLUTTER_ANDROID_APPLICATION_STATE_DESTROYED;
+      DEBUG_APP ("command: DESTROYED");
       break;
     }
 }
@@ -538,6 +586,14 @@ clutter_android_application_get_asset_manager (ClutterAndroidApplication *applic
   g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), NULL);
 
   return application->android_application->activity->assetManager;
+}
+
+ANativeActivity *
+clutter_android_application_get_native_activity (ClutterAndroidApplication *application)
+{
+  g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), NULL);
+
+  return application->android_application->activity;
 }
 
 void
