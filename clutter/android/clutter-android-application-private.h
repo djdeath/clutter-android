@@ -29,16 +29,30 @@
 
 #include "clutter-android-application.h"
 
+typedef enum
+{
+  CLUTTER_ANDROID_APPLICATION_STATE_NONE,
+  CLUTTER_ANDROID_APPLICATION_STATE_STARTED,
+  CLUTTER_ANDROID_APPLICATION_STATE_STOPPED,
+  CLUTTER_ANDROID_APPLICATION_STATE_PAUSED,
+  CLUTTER_ANDROID_APPLICATION_STATE_DESTROYED
+} ClutterAndroidApplicationState;
+
 struct _ClutterAndroidApplication
 {
   GObject parent;
 
   struct android_app* android_application;
 
+  ClutterAndroidApplicationState state;
+
   int32_t modifier_state;
 
+  guint had_window_once : 1;
   guint have_window : 1;
   guint touch_enabled : 1;
+
+  CoglOnscreen *saved_onscreen;
 
   GMainLoop *wait_for_window;
 };

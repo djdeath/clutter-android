@@ -28,6 +28,7 @@
 #include <glib-object.h>
 
 #include <android/asset_manager.h>
+#include <android/native_activity.h>
 
 G_BEGIN_DECLS
 
@@ -76,7 +77,10 @@ void clutter_android_application_show_keyboard (ClutterAndroidApplication *appli
                                                 gboolean show_keyboard,
                                                 gboolean implicit);
 void clutter_android_application_run (ClutterAndroidApplication *application);
+
 AAssetManager *clutter_android_application_get_asset_manager (ClutterAndroidApplication *application);
+
+ANativeActivity *clutter_android_application_get_native_activity (ClutterAndroidApplication *application);
 
 void clutter_android_application_set_enable_touch (ClutterAndroidApplication *application,
                                                    gboolean touch_enabled);
