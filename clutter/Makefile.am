@@ -293,6 +293,7 @@ deprecated_c = \
 	$(srcdir)/deprecated/clutter-alpha.c 			\
 	$(srcdir)/deprecated/clutter-animation.c		\
 	$(srcdir)/deprecated/clutter-animator.c			\
+	$(srcdir)/deprecated/clutter-backend-deprecated.c	\
 	$(srcdir)/deprecated/clutter-behaviour.c 		\
 	$(srcdir)/deprecated/clutter-behaviour-depth.c		\
 	$(srcdir)/deprecated/clutter-behaviour-ellipse.c	\

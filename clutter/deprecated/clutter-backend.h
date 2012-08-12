@@ -30,6 +30,7 @@
 #define __CLUTTER_BACKEND_DEPRECATED_H__
 
 #include <clutter/clutter-types.h>
+#include <clutter/clutter-backend.h>
 
 G_BEGIN_DECLS
 
