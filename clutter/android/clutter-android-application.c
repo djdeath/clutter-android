@@ -159,7 +159,7 @@ clutter_android_handle_cmd (struct android_app *app,
 
           /* Remove the fullscreen we ask at activity creation to be
              able to use it later if needed. */
-          if (!application->saved_onscreen)
+          if (!application->had_window_once)
             {
               cogl_android_set_native_window (application->android_application->window);
               application->had_window_once = TRUE;
@@ -277,6 +277,10 @@ clutter_android_handle_cmd (struct android_app *app,
       /* When our app loses focus, we stop monitoring the accelerometer.
        * This is to avoid consuming battery while not being used. */
       DEBUG_APP ("command: LOST_FOCUS");
+      break;
+
+    case APP_CMD_RESUME:
+      DEBUG_APP ("command: RESUME");
       break;
 
     case APP_CMD_START:
@@ -567,7 +571,9 @@ clutter_android_application_run (ClutterAndroidApplication *application)
 
   /* XXX: eeew. We wait to have a window to initialize Clutter and
    * thus to enter the clutter main loop */
-  if (!application->have_window)
+  if (/* (application->state != CLUTTER_ANDROID_APPLICATION_STATE_DESTROYED && */
+      /*  application->state != CLUTTER_ANDROID_APPLICATION_STATE_NONE) && */
+      !application->have_window)
     {
       DEBUG_APP ("Waiting for the window");
       application->wait_for_window = g_main_loop_new (NULL, FALSE);
@@ -671,6 +677,14 @@ android_main (struct android_app* android_application)
   g_android_init ();
 
   clutter_application = clutter_android_application_get_default ();
+
+  DEBUG_APP ("app_state=%i", clutter_application->state);
+
+  if (clutter_application->state != CLUTTER_ANDROID_APPLICATION_STATE_NONE)
+    {
+      clutter_main ();
+      return;
+    }
 
   android_application->userData = clutter_application;
   android_application->onAppCmd = clutter_android_handle_cmd;
