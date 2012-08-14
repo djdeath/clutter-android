@@ -230,7 +230,8 @@ emit_drag_motion (ClutterDragAction *action,
   else
     drag_handle = actor;
 
-  motion_x = motion_y = 0.0f;
+  motion_x = priv->last_motion_x;
+  motion_y = priv->last_motion_y;
   clutter_actor_transform_stage_point (drag_handle,
                                        priv->last_motion_x,
                                        priv->last_motion_y,
