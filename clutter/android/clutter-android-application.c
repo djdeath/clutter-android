@@ -300,6 +300,7 @@ clutter_android_handle_cmd (struct android_app *app,
 
     case APP_CMD_DESTROY:
       application->state = CLUTTER_ANDROID_APPLICATION_STATE_DESTROYED;
+      clutter_main_quit ();
       DEBUG_APP ("command: DESTROYED");
       break;
     }
