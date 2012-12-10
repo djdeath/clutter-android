@@ -85,6 +85,9 @@ ANativeActivity *clutter_android_application_get_native_activity (ClutterAndroid
 void clutter_android_application_set_enable_touch (ClutterAndroidApplication *application,
                                                    gboolean touch_enabled);
 gboolean clutter_android_application_get_enable_touch (ClutterAndroidApplication *application);
+void clutter_android_application_set_enable_volume_keys (ClutterAndroidApplication *application,
+                                                         gboolean volume_keys_enabled);
+gboolean clutter_android_application_get_enable_volume_keys (ClutterAndroidApplication *application);
 
 G_END_DECLS
 

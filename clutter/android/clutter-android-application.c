@@ -119,6 +119,7 @@ static void
 clutter_android_application_init (ClutterAndroidApplication *self)
 {
   self->touch_enabled = TRUE;
+  self->volume_keys_enabled = TRUE;
 }
 
 ClutterAndroidApplication *
@@ -489,6 +490,7 @@ static gboolean
 translate_key_event (AInputEvent *a_event)
 {
   int32_t action;
+  int32_t keycode;
   ClutterEvent *event;
   ClutterBackendAndroid *backend;
   ClutterDeviceManager *manager;
@@ -498,6 +500,7 @@ translate_key_event (AInputEvent *a_event)
   int32_t new_modifier_state = application->modifier_state;
 
   action = AKeyEvent_getAction (a_event);
+  keycode = AKeyEvent_getKeyCode (a_event);
 
   manager = clutter_device_manager_get_default ();
   keyboard_device =
@@ -508,7 +511,14 @@ translate_key_event (AInputEvent *a_event)
              AKeyEvent_getAction (a_event),
              AKeyEvent_getFlags (a_event),
              AKeyEvent_getMetaState (a_event),
-             AKeyEvent_getKeyCode (a_event));
+             keycode);
+
+  if (!application->volume_keys_enabled
+      && (keycode == AKEYCODE_VOLUME_UP || keycode == AKEYCODE_VOLUME_DOWN))
+    {
+      DEBUG_KEY ("\tkey ignored");
+      return FALSE;
+    }
 
   switch (action)
     {
@@ -653,6 +663,28 @@ clutter_android_application_get_enable_touch (ClutterAndroidApplication *applica
   g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), FALSE);
 
   return application->touch_enabled;
+}
+
+void
+clutter_android_application_set_enable_volume_keys (ClutterAndroidApplication *application,
+                                                    gboolean volume_keys_enabled)
+{
+  g_return_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application));
+
+  application->volume_keys_enabled = !!volume_keys_enabled;
+
+  if (volume_keys_enabled)
+    DEBUG_APP ("enabling volume keys");
+  else
+    DEBUG_APP ("disabling volume keys");
+}
+
+gboolean
+clutter_android_application_get_enable_volume_keys (ClutterAndroidApplication *application)
+{
+  g_return_val_if_fail (CLUTTER_IS_ANDROID_APPLICATION (application), FALSE);
+
+  return application->volume_keys_enabled;
 }
 
 /*
