@@ -51,6 +51,7 @@ struct _ClutterAndroidApplication
   guint had_window_once : 1;
   guint have_window : 1;
   guint touch_enabled : 1;
+  guint volume_keys_enabled : 1;
 
   CoglOnscreen *saved_onscreen;
 
