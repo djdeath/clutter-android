@@ -1,3 +1,43 @@
+Clutter 1.13.4                                                       2013-01-16
+===============================================================================
+
+  • List of changes since Clutter 1.13.2
+
+    - Build fixes for the Windows backend.
+    Including fixes for building with Visual Studio.
+
+    - Fix for the fullscreen support of the ClutterStage on Windows.
+
+    - Documentation fixes.
+
+    - Use XFixes to show and hide the cursor on X11 backends.
+
+    - Allow setting Pango attributes on editable ClutterText actors.
+
+    - Translation updates
+    Russian, Bulgarian, Spanish, Greek, Galician, Slovenia, Polish.
+
+  • List of bugs fixed
+
+    #690735 - ClutterSwipeAction is broken
+    #691651 - Fix a typo in CLUTTER_STAGE_STATE document
+    #686477 - pango attributes in ClutterText cannot be set while editable
+    #690836 - clutter_stage_set_fullscreen on a win32 stage does not function
+              correctly
+    #690835 - mingw build from git master fails with "no previous declaration
+              for 'DllMain'"
+    #690833 - missing include file clutter-shader.h in clutter-backend-win32.c
+    #691114 - "(constructor)" tag for clutter_color_alloc() is missing
+    #690664 - x11: Ignore num lock / scroll lock for event state
+    #690497 - use XFixes for hiding the cursor
+
+Many thanks to:
+
+  Jasper St. Pierre, Wouter Paesen, Chun-wei Fan, Emmanuele Bassi, Kouhei
+  Sutou, Aleksej Kabanov, Alexander Shopov, Daniel Mustieles, Daniel Stone,
+  Dimitris Spingos, Fran Diéguez, Matej Urbančič, Nirbheek Chauhan, Piotr
+  Drąg, Tomeu Vizoso.
+
 Clutter 1.13.2                                                       2012-12-18
 ===============================================================================
 
