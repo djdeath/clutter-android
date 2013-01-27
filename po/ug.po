@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: clutter master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=clutter&keywords=I18N+L10N&component=general\n"
-"POT-Creation-Date: 2013-01-18 17:32+0000\n"
-"PO-Revision-Date: 2012-02-25 19:34+0000\n"
+"POT-Creation-Date: 2013-01-25 15:40+0000\n"
+"PO-Revision-Date: 2013-01-27 12:17+0900\n"
 "Last-Translator: Gheyret Kenji <gheyret@gmail.com>\n"
-"Language-Team: Uighur <ug@li.org>\n"
+"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "Language: ug\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,6 @@ msgid "Y coordinate of the actor"
 msgstr ""
 
 #: ../clutter/clutter-actor.c:6186
-#| msgid "Cursor Position"
 msgid "Position"
 msgstr "ئورنى"
 
@@ -87,7 +86,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6298
 msgid "Fixed position set"
-msgstr ""
+msgstr "مۇقىملاشتۇرۇلغان ئورۇن توپلىمى"
 
 #: ../clutter/clutter-actor.c:6299
 msgid "Whether to use fixed positioning for the actor"
@@ -127,7 +126,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6390
 msgid "Minimum width set"
-msgstr ""
+msgstr "ئەڭ كىچىك كەڭلىك توپلىمى"
 
 #: ../clutter/clutter-actor.c:6391
 msgid "Whether to use the min-width property"
@@ -135,7 +134,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6405
 msgid "Minimum height set"
-msgstr ""
+msgstr "ئەڭ كىچىك ئېگىزلىك توپلىمى"
 
 #: ../clutter/clutter-actor.c:6406
 msgid "Whether to use the min-height property"
@@ -143,7 +142,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6420
 msgid "Natural width set"
-msgstr ""
+msgstr "تەبىئىي كەڭلىك توپلىمى"
 
 #: ../clutter/clutter-actor.c:6421
 msgid "Whether to use the natural-width property"
@@ -151,7 +150,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6435
 msgid "Natural height set"
-msgstr ""
+msgstr "تەبىئىي ئېگىزلىك توپلىمى"
 
 #: ../clutter/clutter-actor.c:6436
 msgid "Whether to use the natural-height property"
@@ -167,7 +166,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6510
 msgid "Request Mode"
-msgstr ""
+msgstr "ئىلتىماس ھالىتى"
 
 #: ../clutter/clutter-actor.c:6511
 msgid "The actor's request mode"
@@ -179,10 +178,9 @@ msgstr "چوڭقۇرلۇقى"
 
 #: ../clutter/clutter-actor.c:6536
 msgid "Position on the Z axis"
-msgstr ""
+msgstr "Z ئوقىدىكى ئورنى"
 
 #: ../clutter/clutter-actor.c:6563
-#| msgid "Cursor Position"
 msgid "Z Position"
 msgstr "Z ئورنى"
 
@@ -216,7 +214,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6632
 msgid "Mapped"
-msgstr ""
+msgstr "ئورۇنلاشتۇر"
 
 #: ../clutter/clutter-actor.c:6633
 msgid "Whether the actor will be painted"
@@ -240,7 +238,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6674
 msgid "Has Clip"
-msgstr ""
+msgstr "ئىلغۇچى بار"
 
 #: ../clutter/clutter-actor.c:6675
 msgid "Whether the actor has a clip set"
@@ -248,7 +246,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6688
 msgid "Clip"
-msgstr ""
+msgstr "ئىلغۇچ"
 
 #: ../clutter/clutter-actor.c:6689
 msgid "The clip region for the actor"
@@ -256,7 +254,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6708
 msgid "Clip Rectangle"
-msgstr ""
+msgstr "ئىلغۇچنىڭ دائىرىسى"
 
 #: ../clutter/clutter-actor.c:6709
 msgid "The visible region of the actor"
@@ -273,123 +271,123 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:6745
 msgid "Pivot Point"
-msgstr "ئايلانما نۇقتا"
+msgstr "چۆرگىلەش مەركىزى"
 
 #: ../clutter/clutter-actor.c:6746
 msgid "The point around which the scaling and rotation occur"
-msgstr ""
+msgstr "چوڭايتىش-كىچىكلىتىش ۋە چۆرگىلىتىشنىڭ مەركىزى نۇقتىسى"
 
 #: ../clutter/clutter-actor.c:6764
 msgid "Pivot Point Z"
-msgstr ""
+msgstr "Z ئوقىدىكى چۆرگىلەش مەركىزى"
 
 #: ../clutter/clutter-actor.c:6765
 msgid "Z component of the pivot point"
-msgstr ""
+msgstr "چۆرگىلەش مەركىزىنىڭ Z ئوقىدىكى نۇقتىسى"
 
 #: ../clutter/clutter-actor.c:6783
 msgid "Scale X"
-msgstr ""
+msgstr "X ئوقىدا چوڭايتىش-كىچىكلىتىش"
 
 #: ../clutter/clutter-actor.c:6784
 msgid "Scale factor on the X axis"
-msgstr ""
+msgstr "X ئوقىدا چوڭايتىش-كىچىكلىتىش نىسبىتى"
 
 #: ../clutter/clutter-actor.c:6802
 msgid "Scale Y"
-msgstr ""
+msgstr "Y ئوقىدا چوڭايتىش-كىچىكلىتىش"
 
 #: ../clutter/clutter-actor.c:6803
 msgid "Scale factor on the Y axis"
-msgstr ""
+msgstr "Y ئوقىدا چوڭايتىش-كىچىكلىتىش نىسبىتى"
 
 #: ../clutter/clutter-actor.c:6821
 msgid "Scale Z"
-msgstr ""
+msgstr "Z ئوقىدا چوڭايتىش-كىچىكلىتىش"
 
 #: ../clutter/clutter-actor.c:6822
 msgid "Scale factor on the Z axis"
-msgstr ""
+msgstr "Z ئوقىدا چوڭايتىش-كىچىكلىتىش نىسبىتى"
 
 #: ../clutter/clutter-actor.c:6840
 msgid "Scale Center X"
-msgstr ""
+msgstr "چوڭايتىش-كىچىكلىتىشنىڭ X ئوقىدىكى مەركىزى"
 
 #: ../clutter/clutter-actor.c:6841
 msgid "Horizontal scale center"
-msgstr ""
+msgstr "توغرا يۆنىلىشتىكى چوڭايتىش-كىچىكلىتىشنىڭ مەركىزى"
 
 #: ../clutter/clutter-actor.c:6859
 msgid "Scale Center Y"
-msgstr ""
+msgstr "چوڭايتىش-كىچىكلىتىشنىڭ Y ئوقىدىكى مەركىزى"
 
 #: ../clutter/clutter-actor.c:6860
 msgid "Vertical scale center"
-msgstr ""
+msgstr "تىك يۆنىلىشتىكى چوڭايتىش-كىچىكلىتىشنىڭ مەركىزى"
 
 #: ../clutter/clutter-actor.c:6878
 msgid "Scale Gravity"
-msgstr ""
+msgstr "چوڭايتىش-كىچىكلىتىشنىڭ ئېغىرلىق كۈچى يۆنىلىشىدىكى مەركىزى"
 
 #: ../clutter/clutter-actor.c:6879
 msgid "The center of scaling"
-msgstr ""
+msgstr "چوڭايتىش-كىچىكلىتىشنىڭ مەركىزى"
 
 #: ../clutter/clutter-actor.c:6897
 msgid "Rotation Angle X"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ X ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6898
 msgid "The rotation angle on the X axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ X ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6916
 msgid "Rotation Angle Y"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Y ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6917
 msgid "The rotation angle on the Y axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Y ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6935
 msgid "Rotation Angle Z"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6936
 msgid "The rotation angle on the Z axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  بۇلۇڭى"
 
 #: ../clutter/clutter-actor.c:6954
 msgid "Rotation Center X"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ X ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:6955
 msgid "The rotation center on the X axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ X ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:6972
 msgid "Rotation Center Y"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Y ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:6973
 msgid "The rotation center on the Y axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Y ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:6990
 msgid "Rotation Center Z"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:6991
 msgid "The rotation center on the Z axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:7008
 msgid "Rotation Center Z Gravity"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  مەركىزى"
 
 #: ../clutter/clutter-actor.c:7009
 msgid "Center point for rotation around the Z axis"
-msgstr ""
+msgstr "چۆرگىلىتىشنىڭ Z ئوقىدىكى  مەركىزى نۇقتىسى"
 
 #: ../clutter/clutter-actor.c:7037
 msgid "Anchor X"
@@ -417,51 +415,51 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:7114
 msgid "Translation X"
-msgstr ""
+msgstr "X ئوقىدىكى يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7115
 msgid "Translation along the X axis"
-msgstr ""
+msgstr "X ئوقى يۆنىلىشىدىكى  يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7134
 msgid "Translation Y"
-msgstr ""
+msgstr "Y ئوقىدىكى يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7135
 msgid "Translation along the Y axis"
-msgstr ""
+msgstr "Y ئوقى يۆنىلىشىدىكى  يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7154
 msgid "Translation Z"
-msgstr ""
+msgstr "Z ئوقىدىكى يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7155
 msgid "Translation along the Z axis"
-msgstr ""
+msgstr "Z ئوقى يۆنىلىشىدىكى  يۆتكىلىش"
 
 #: ../clutter/clutter-actor.c:7185
 msgid "Transform"
-msgstr "ئالماشتۇرۇش"
+msgstr "ئۆزگەرتىش"
 
 #: ../clutter/clutter-actor.c:7186
 msgid "Transformation matrix"
-msgstr ""
+msgstr "ئۆزگەرتىش ماترىتساسى"
 
 #: ../clutter/clutter-actor.c:7201
 msgid "Transform Set"
-msgstr ""
+msgstr "ئۆزگەرتىش توپلىمى"
 
 #: ../clutter/clutter-actor.c:7202
 msgid "Whether the transform property is set"
-msgstr ""
+msgstr "ئۆزگەرتىش خاسلىقىنى بەلگىلەمدۇ يوق"
 
 #: ../clutter/clutter-actor.c:7223
 msgid "Child Transform"
-msgstr ""
+msgstr "بالا نەڭنى ئۆزگەرتىش"
 
 #: ../clutter/clutter-actor.c:7224
 msgid "Children transformation matrix"
-msgstr ""
+msgstr "بالا نەڭنى ئۆزگەرتىدىغان ماترىتسا"
 
 #: ../clutter/clutter-actor.c:7239
 msgid "Child Transform Set"
@@ -493,11 +491,11 @@ msgstr "تېكىست يۆنىلىشى"
 
 #: ../clutter/clutter-actor.c:7290
 msgid "Direction of the text"
-msgstr ""
+msgstr "تېكىست يۆنىلىشى"
 
 #: ../clutter/clutter-actor.c:7305
 msgid "Has Pointer"
-msgstr ""
+msgstr "ئىسترېلكا بار"
 
 #: ../clutter/clutter-actor.c:7306
 msgid "Whether the actor contains the pointer of an input device"
@@ -536,7 +534,6 @@ msgid "The object controlling the layout of an actor's children"
 msgstr ""
 
 #: ../clutter/clutter-actor.c:7377
-#| msgid "Expand"
 msgid "X Expand"
 msgstr ""
 
@@ -545,7 +542,6 @@ msgid "Whether extra horizontal space should be assigned to the actor"
 msgstr ""
 
 #: ../clutter/clutter-actor.c:7393
-#| msgid "Expand"
 msgid "Y Expand"
 msgstr ""
 
@@ -619,7 +615,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:7562
 msgid "First Child"
-msgstr ""
+msgstr "تۇنجى بالا"
 
 #: ../clutter/clutter-actor.c:7563
 msgid "The actor's first child"
@@ -627,14 +623,13 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:7576
 msgid "Last Child"
-msgstr ""
+msgstr "كەنجى بالا"
 
 #: ../clutter/clutter-actor.c:7577
 msgid "The actor's last child"
 msgstr ""
 
 #: ../clutter/clutter-actor.c:7591
-#| msgid "Container"
 msgid "Content"
 msgstr "مەزمۇن"
 
@@ -652,7 +647,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:7638
 msgid "Content Box"
-msgstr ""
+msgstr "مەزمۇن قۇتىسى"
 
 #: ../clutter/clutter-actor.c:7639
 msgid "The bounding box of the actor's content"
@@ -660,19 +655,19 @@ msgstr ""
 
 #: ../clutter/clutter-actor.c:7647
 msgid "Minification Filter"
-msgstr ""
+msgstr "كىچىكلىتىش سۈزگۈچى"
 
 #: ../clutter/clutter-actor.c:7648
 msgid "The filter used when reducing the size of the content"
-msgstr ""
+msgstr "مەزمۇننىڭ چوڭلۇقىنى كىچىكلىتىدىغان ۋاقىتتا ئىشلىتىدىغان سۈزگۈچ"
 
 #: ../clutter/clutter-actor.c:7655
 msgid "Magnification Filter"
-msgstr ""
+msgstr "چوڭايتىش سۈزگۈچى"
 
 #: ../clutter/clutter-actor.c:7656
 msgid "The filter used when increasing the size of the content"
-msgstr ""
+msgstr "مەزمۇننىڭ چوڭلۇقىنى چوڭايتىدىغان ۋاقىتتا ئىشلىتىدىغان سۈزگۈچ"
 
 #: ../clutter/clutter-actor.c:7670
 msgid "Content Repeat"
@@ -692,7 +687,7 @@ msgstr ""
 
 #: ../clutter/clutter-actor-meta.c:208
 msgid "The name of the meta"
-msgstr ""
+msgstr "مېتا ئۇچۇرلارنىڭ ئاتى"
 
 #: ../clutter/clutter-actor-meta.c:221 ../clutter/clutter-input-device.c:337
 #: ../clutter/deprecated/clutter-shader.c:313
@@ -701,7 +696,7 @@ msgstr "ئىناۋەتلىك قىلىنغان"
 
 #: ../clutter/clutter-actor-meta.c:222
 msgid "Whether the meta is enabled"
-msgstr ""
+msgstr "مېتا ئۇچۇرلارنىڭ ئىناۋەتلىك قىلىنغانمۇ يوق"
 
 #: ../clutter/clutter-align-constraint.c:279
 #: ../clutter/clutter-bind-constraint.c:358 ../clutter/clutter-clone.c:345
@@ -711,15 +706,15 @@ msgstr "مەنبە"
 
 #: ../clutter/clutter-align-constraint.c:280
 msgid "The source of the alignment"
-msgstr ""
+msgstr "توغرىلاشنىڭ مەنبەسى"
 
 #: ../clutter/clutter-align-constraint.c:293
 msgid "Align Axis"
-msgstr ""
+msgstr "توغرىلاش ئوقى"
 
 #: ../clutter/clutter-align-constraint.c:294
 msgid "The axis to align the position to"
-msgstr ""
+msgstr "ئورۇننى توغرىلايدىغان ئوق"
 
 #: ../clutter/clutter-align-constraint.c:313
 #: ../clutter/clutter-desaturate-effect.c:270
@@ -728,11 +723,11 @@ msgstr "كۆپەيتكۈچى"
 
 #: ../clutter/clutter-align-constraint.c:314
 msgid "The alignment factor, between 0.0 and 1.0"
-msgstr ""
+msgstr "توغرىلاش فاكتورى، قىممىتى 0.0 دىن 1.0 ئارىلىقىدا"
 
 #: ../clutter/clutter-backend.c:379
 msgid "Unable to initialize the Clutter backend"
-msgstr ""
+msgstr "Clutter ئارقا ئۇچىنى دەسلەپلەشتۈرگىلى بولمىدى"
 
 #: ../clutter/clutter-backend.c:453
 #, c-format
@@ -741,15 +736,15 @@ msgstr ""
 
 #: ../clutter/clutter-bind-constraint.c:359
 msgid "The source of the binding"
-msgstr ""
+msgstr "باغنىڭ مەنبەسى"
 
 #: ../clutter/clutter-bind-constraint.c:372
 msgid "Coordinate"
-msgstr ""
+msgstr "كوئوردېناتى"
 
 #: ../clutter/clutter-bind-constraint.c:373
 msgid "The coordinate to bind"
-msgstr ""
+msgstr "باغلايدىغان كوئوردېنات"
 
 #: ../clutter/clutter-bind-constraint.c:387
 #: ../clutter/clutter-path-constraint.c:226
@@ -759,16 +754,16 @@ msgstr "ئېغىش"
 
 #: ../clutter/clutter-bind-constraint.c:388
 msgid "The offset in pixels to apply to the binding"
-msgstr ""
+msgstr "پىكسېل بىلەن ئىپادىلەنگەن باغقا ئىشلىتىدىغان ئېغىش"
 
 #: ../clutter/clutter-binding-pool.c:320
 msgid "The unique name of the binding pool"
-msgstr ""
+msgstr "باغ كۆلچىكىنىڭ ئالاھىدە ئاتى"
 
 #: ../clutter/clutter-bin-layout.c:240 ../clutter/clutter-bin-layout.c:655
 #: ../clutter/clutter-box-layout.c:390 ../clutter/clutter-table-layout.c:610
 msgid "Horizontal Alignment"
-msgstr "توغرىسىغا جايلاشتۇرۇش"
+msgstr "توغرىسىغا توغرىلاش"
 
 #: ../clutter/clutter-bin-layout.c:241
 msgid "Horizontal alignment for the actor inside the layout manager"
@@ -777,7 +772,7 @@ msgstr ""
 #: ../clutter/clutter-bin-layout.c:249 ../clutter/clutter-bin-layout.c:675
 #: ../clutter/clutter-box-layout.c:399 ../clutter/clutter-table-layout.c:625
 msgid "Vertical Alignment"
-msgstr "تىك جايلاشتۇرۇش"
+msgstr "تىك توغرىلاش"
 
 #: ../clutter/clutter-bin-layout.c:250
 msgid "Vertical alignment for the actor inside the layout manager"
@@ -801,7 +796,7 @@ msgstr ""
 
 #: ../clutter/clutter-box-layout.c:372 ../clutter/clutter-table-layout.c:589
 msgid "Horizontal Fill"
-msgstr ""
+msgstr "توغرىسىغا تولدۇرۇش"
 
 #: ../clutter/clutter-box-layout.c:373 ../clutter/clutter-table-layout.c:590
 msgid ""
@@ -811,7 +806,7 @@ msgstr ""
 
 #: ../clutter/clutter-box-layout.c:381 ../clutter/clutter-table-layout.c:596
 msgid "Vertical Fill"
-msgstr ""
+msgstr "بويىغا تولدۇرۇش"
 
 #: ../clutter/clutter-box-layout.c:382 ../clutter/clutter-table-layout.c:597
 msgid ""
@@ -833,7 +828,7 @@ msgstr "تىك"
 
 #: ../clutter/clutter-box-layout.c:1366
 msgid "Whether the layout should be vertical, rather than horizontal"
-msgstr ""
+msgstr "جايلاشتۇرۇشنىڭ يۆنىلىشى توغرىسىغا ئەمەس بويىغا بولىدۇ"
 
 #: ../clutter/clutter-box-layout.c:1383 ../clutter/clutter-flow-layout.c:890
 #: ../clutter/clutter-grid-layout.c:1550
@@ -843,16 +838,16 @@ msgstr "يۆنىلىش"
 #: ../clutter/clutter-box-layout.c:1384 ../clutter/clutter-flow-layout.c:891
 #: ../clutter/clutter-grid-layout.c:1551
 msgid "The orientation of the layout"
-msgstr ""
+msgstr "جايلاشتۇرۇشنىڭ يۆنىلىشى"
 
 #: ../clutter/clutter-box-layout.c:1400 ../clutter/clutter-flow-layout.c:906
 msgid "Homogeneous"
-msgstr "ئوخشاشلىق"
+msgstr "ئوخشاش"
 
 #: ../clutter/clutter-box-layout.c:1401
 msgid ""
 "Whether the layout should be homogeneous, i.e. all childs get the same size"
-msgstr ""
+msgstr "بارلىق بالا نەڭلەرنىڭ چوڭلۇقى ئوخشاش بولامدۇ يوق"
 
 #: ../clutter/clutter-box-layout.c:1416
 msgid "Pack Start"
@@ -868,11 +863,11 @@ msgstr "ئارىلىق"
 
 #: ../clutter/clutter-box-layout.c:1431
 msgid "Spacing between children"
-msgstr ""
+msgstr "بالىلار ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-box-layout.c:1448 ../clutter/clutter-table-layout.c:1675
 msgid "Use Animations"
-msgstr ""
+msgstr "جانلاندۇرۇم"
 
 #: ../clutter/clutter-box-layout.c:1449 ../clutter/clutter-table-layout.c:1676
 msgid "Whether layout changes should be animated"
@@ -948,7 +943,7 @@ msgstr ""
 
 #: ../clutter/clutter-click-action.c:591 ../clutter/clutter-settings.c:599
 msgid "Long Press Duration"
-msgstr ""
+msgstr "ئۇزۇن بېسىشنىڭ ۋاقتى"
 
 #: ../clutter/clutter-click-action.c:592
 msgid "The minimum duration of a long press to recognize the gesture"
@@ -956,7 +951,7 @@ msgstr ""
 
 #: ../clutter/clutter-click-action.c:610
 msgid "Long Press Threshold"
-msgstr ""
+msgstr "ئۇزۇن بېسىشنىڭ بوسۇغا قىممىتى"
 
 #: ../clutter/clutter-click-action.c:611
 msgid "The maximum threshold before a long press is cancelled"
@@ -976,19 +971,19 @@ msgstr ""
 
 #: ../clutter/clutter-deform-effect.c:588
 msgid "Horizontal Tiles"
-msgstr ""
+msgstr "توغرا يۆنىلىشتىكى كاھىش"
 
 #: ../clutter/clutter-deform-effect.c:589
 msgid "The number of horizontal tiles"
-msgstr ""
+msgstr "توغرا يۆنىلىشتىكى كاھىشنىڭ سانى"
 
 #: ../clutter/clutter-deform-effect.c:604
 msgid "Vertical Tiles"
-msgstr ""
+msgstr "تىك يۆنىلىشتىكى كاھىش"
 
 #: ../clutter/clutter-deform-effect.c:605
 msgid "The number of vertical tiles"
-msgstr ""
+msgstr "تىك يۆنىلىشتىكى كاھىشنىڭ سانى"
 
 #: ../clutter/clutter-deform-effect.c:622
 msgid "Back Material"
@@ -1010,11 +1005,11 @@ msgstr "ئارقا ئۇچ"
 
 #: ../clutter/clutter-device-manager.c:132
 msgid "The ClutterBackend of the device manager"
-msgstr ""
+msgstr "ئۈسكۈنە باشقۇرغۇنىڭ ClutterBackend"
 
 #: ../clutter/clutter-drag-action.c:742
 msgid "Horizontal Drag Threshold"
-msgstr ""
+msgstr "توغرا يۆنىلىشتىكى سۆرەش بوسۇغا قىممىتى"
 
 #: ../clutter/clutter-drag-action.c:743
 msgid "The horizontal amount of pixels required to start dragging"
@@ -1022,7 +1017,7 @@ msgstr ""
 
 #: ../clutter/clutter-drag-action.c:770
 msgid "Vertical Drag Threshold"
-msgstr ""
+msgstr "تىك يۆنىلىشتىكى سۆرەش بوسۇغا قىممىتى"
 
 #: ../clutter/clutter-drag-action.c:771
 msgid "The vertical amount of pixels required to start dragging"
@@ -1030,7 +1025,7 @@ msgstr ""
 
 #: ../clutter/clutter-drag-action.c:792
 msgid "Drag Handle"
-msgstr ""
+msgstr "سۆرەش تۇتقۇسى"
 
 #: ../clutter/clutter-drag-action.c:793
 msgid "The actor that is being dragged"
@@ -1038,16 +1033,15 @@ msgstr ""
 
 #: ../clutter/clutter-drag-action.c:806
 msgid "Drag Axis"
-msgstr ""
+msgstr "سۆرەش ئوقى"
 
 #: ../clutter/clutter-drag-action.c:807
 msgid "Constraints the dragging to an axis"
 msgstr ""
 
 #: ../clutter/clutter-drag-action.c:823
-#| msgid "Drag Threshold"
 msgid "Drag Area"
-msgstr ""
+msgstr "سۆرەش دائىرىسى"
 
 #: ../clutter/clutter-drag-action.c:824
 msgid "Constrains the dragging to a rectangle"
@@ -1058,7 +1052,6 @@ msgid "Drag Area Set"
 msgstr ""
 
 #: ../clutter/clutter-drag-action.c:838
-#| msgid "Whether the device has a cursor"
 msgid "Whether the drag area is set"
 msgstr ""
 
@@ -1072,7 +1065,7 @@ msgstr "ئىستون بوشلۇقى"
 
 #: ../clutter/clutter-flow-layout.c:923
 msgid "The spacing between columns"
-msgstr ""
+msgstr "ئىستونلار ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-flow-layout.c:939 ../clutter/clutter-table-layout.c:1651
 msgid "Row Spacing"
@@ -1080,39 +1073,39 @@ msgstr "قۇر بوشلۇقى"
 
 #: ../clutter/clutter-flow-layout.c:940
 msgid "The spacing between rows"
-msgstr ""
+msgstr "قۇرلار ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-flow-layout.c:954
 msgid "Minimum Column Width"
-msgstr ""
+msgstr "ئىستوننىڭ ئەڭ كىچىك كەڭلىكى"
 
 #: ../clutter/clutter-flow-layout.c:955
 msgid "Minimum width for each column"
-msgstr ""
+msgstr "ھەر بىر ئىستوننىڭ ئەڭ كىچىك كەڭلىكى"
 
 #: ../clutter/clutter-flow-layout.c:970
 msgid "Maximum Column Width"
-msgstr ""
+msgstr "ئىستوننىڭ ئەڭ چوڭ كەڭلىكى"
 
 #: ../clutter/clutter-flow-layout.c:971
 msgid "Maximum width for each column"
-msgstr ""
+msgstr "ھەر بىر ئىستوننىڭ ئەڭ چوڭ كەڭلىكى"
 
 #: ../clutter/clutter-flow-layout.c:985
 msgid "Minimum Row Height"
-msgstr ""
+msgstr "قۇرنىڭ ئەڭ كىچىك ئېگىزلىكى"
 
 #: ../clutter/clutter-flow-layout.c:986
 msgid "Minimum height for each row"
-msgstr ""
+msgstr "ھەر بىر قۇرنىڭ ئەڭ كىچىك ئېگىزلىكى"
 
 #: ../clutter/clutter-flow-layout.c:1001
 msgid "Maximum Row Height"
-msgstr ""
+msgstr "قۇرنىڭ ئەڭ چوڭ ئېگىزلىكى"
 
 #: ../clutter/clutter-flow-layout.c:1002
 msgid "Maximum height for each row"
-msgstr ""
+msgstr "بەر بىر قۇرنىڭ ئەڭ چوڭ ئېگىزلىكى"
 
 #: ../clutter/clutter-grid-layout.c:1222
 msgid "Left attachment"
@@ -1139,7 +1132,6 @@ msgid "The number of rows that a child spans"
 msgstr "بىرىكىدىغان بالا قۇرلارنىڭ سانى"
 
 #: ../clutter/clutter-grid-layout.c:1565
-#| msgid "Row Spacing"
 msgid "Row spacing"
 msgstr "قۇر بوشلۇقى"
 
@@ -1148,7 +1140,6 @@ msgid "The amount of space between two consecutive rows"
 msgstr "ئىككى قۇر ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-grid-layout.c:1579
-#| msgid "Column Spacing"
 msgid "Column spacing"
 msgstr "ئىستون بوشلۇقى"
 
@@ -1157,7 +1148,6 @@ msgid "The amount of space between two consecutive columns"
 msgstr "ئىككى ئىستون ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-grid-layout.c:1594
-#| msgid "Homogeneous"
 msgid "Row Homogeneous"
 msgstr "قۇر ئوخشاش"
 
@@ -1166,7 +1156,6 @@ msgid "If TRUE, the rows are all the same height"
 msgstr "ئەگەر TRUE بولسا، قۇرنىڭ ھەممىسى ئوخشاش ئېگىزلىكتە بولىدۇ."
 
 #: ../clutter/clutter-grid-layout.c:1608
-#| msgid "Homogeneous"
 msgid "Column Homogeneous"
 msgstr "ئىستون ئوخشاش"
 
@@ -1177,7 +1166,7 @@ msgstr "ئەگەر TRUE بولسا، ئىستوننىڭ ھەممىسى ئوخش�
 #: ../clutter/clutter-image.c:248 ../clutter/clutter-image.c:311
 #: ../clutter/clutter-image.c:399
 msgid "Unable to load image data"
-msgstr ""
+msgstr "سۈرەت ھۆججىتىنى ئوقۇغىلى بولمىدى"
 
 #: ../clutter/clutter-input-device.c:242
 msgid "Id"
@@ -1201,23 +1190,23 @@ msgstr "ئۈسكۈنىنىڭ تىپى"
 
 #: ../clutter/clutter-input-device.c:289
 msgid "Device Manager"
-msgstr "ئۈسكۈنە باشقۇرغۇچ"
+msgstr "ئۈسكۈنە باشقۇرغۇ"
 
 #: ../clutter/clutter-input-device.c:290
 msgid "The device manager instance"
-msgstr ""
+msgstr "ئۈسكۈنە باشقۇرغۇ ئۈلگىسى"
 
 #: ../clutter/clutter-input-device.c:303
 msgid "Device Mode"
-msgstr ""
+msgstr "ئۈسكۈنە ھالىتى"
 
 #: ../clutter/clutter-input-device.c:304
 msgid "The mode of the device"
-msgstr ""
+msgstr "ئۈسكۈنىنىڭ ھالىتى"
 
 #: ../clutter/clutter-input-device.c:318
 msgid "Has Cursor"
-msgstr ""
+msgstr "نۇربەلگىسى بار"
 
 #: ../clutter/clutter-input-device.c:319
 msgid "Whether the device has a cursor"
@@ -1225,19 +1214,19 @@ msgstr "ئۈسكۈنىنىڭ نۇربەلگىسى بارمۇ يوق"
 
 #: ../clutter/clutter-input-device.c:338
 msgid "Whether the device is enabled"
-msgstr ""
+msgstr "ئۈسكۈنە ئىناۋەتلىك قىلىنغانمۇ يوق"
 
 #: ../clutter/clutter-input-device.c:351
 msgid "Number of Axes"
-msgstr ""
+msgstr "ئوق سانى"
 
 #: ../clutter/clutter-input-device.c:352
 msgid "The number of axes on the device"
-msgstr ""
+msgstr "ئۈسكۈنىدىكى ئوق سانى"
 
 #: ../clutter/clutter-input-device.c:367
 msgid "The backend instance"
-msgstr ""
+msgstr "ئارقا ئۇچ ئۈلگىسى"
 
 #: ../clutter/clutter-interval.c:506
 msgid "Value Type"
@@ -1245,7 +1234,7 @@ msgstr "قىممەت تىپى"
 
 #: ../clutter/clutter-interval.c:507
 msgid "The type of the values in the interval"
-msgstr ""
+msgstr "ئىنتېرۋال قىممىتىنىڭ تىپى"
 
 #: ../clutter/clutter-interval.c:522
 msgid "Initial Value"
@@ -1253,7 +1242,7 @@ msgstr "دەسلەپكى قىممەت"
 
 #: ../clutter/clutter-interval.c:523
 msgid "Initial value of the interval"
-msgstr ""
+msgstr "ئىنتېرۋالنىڭ دەسلەپكى قىممىتى"
 
 #: ../clutter/clutter-interval.c:537
 msgid "Final Value"
@@ -1261,7 +1250,7 @@ msgstr "ئاخىرقى قىممەت"
 
 #: ../clutter/clutter-interval.c:538
 msgid "Final value of the interval"
-msgstr ""
+msgstr "ئىنتېرۋالنىڭ ئاخىرقى قىممىتى"
 
 #: ../clutter/clutter-layout-meta.c:117
 msgid "Manager"
@@ -1269,7 +1258,7 @@ msgstr "باشقۇرغۇ"
 
 #: ../clutter/clutter-layout-meta.c:118
 msgid "The manager that created this data"
-msgstr ""
+msgstr "مۇشۇ سانلىق-مەلۇماتنىڭ قۇرغان باشقۇرغۇ"
 
 #. Translators: Leave this UNTRANSLATED if your language is
 #. * left-to-right.  If your language is right-to-left
@@ -1351,7 +1340,6 @@ msgid "Whether interpolated events emission is enabled."
 msgstr ""
 
 #: ../clutter/clutter-pan-action.c:480
-#| msgid "Duration"
 msgid "Deceleration"
 msgstr ""
 
@@ -1381,7 +1369,6 @@ msgid "The offset along the path, between -1.0 and 2.0"
 msgstr ""
 
 #: ../clutter/clutter-property-transition.c:271
-#| msgid "Font Name"
 msgid "Property Name"
 msgstr "خاسلىق ئاتى"
 
@@ -1412,15 +1399,15 @@ msgstr "تەرجىمە دائىرىسى"
 
 #: ../clutter/clutter-script.c:500
 msgid "The translation domain used to localize string"
-msgstr ""
+msgstr "تېكىستنى يەرلىكلەشتۈرۈشتە ئىشلىتىدىغان تەرجىمە دائىرىسى"
 
 #: ../clutter/clutter-scroll-actor.c:263
 msgid "Scroll Mode"
-msgstr ""
+msgstr "سىيرىش ھالىتى"
 
 #: ../clutter/clutter-scroll-actor.c:264
 msgid "The scrolling direction"
-msgstr ""
+msgstr "سىيرىش يۆنىلىشى"
 
 #: ../clutter/clutter-settings.c:440
 msgid "Double Click Time"
@@ -1658,7 +1645,7 @@ msgstr ""
 
 #: ../clutter/clutter-table-layout.c:543
 msgid "Column Number"
-msgstr ""
+msgstr "ئىستون نومۇرى"
 
 #: ../clutter/clutter-table-layout.c:544
 msgid "The column the widget resides in"
@@ -1666,7 +1653,7 @@ msgstr ""
 
 #: ../clutter/clutter-table-layout.c:551
 msgid "Row Number"
-msgstr ""
+msgstr "قۇر نومۇرى"
 
 #: ../clutter/clutter-table-layout.c:552
 msgid "The row the widget resides in"
@@ -1674,7 +1661,7 @@ msgstr ""
 
 #: ../clutter/clutter-table-layout.c:559
 msgid "Column Span"
-msgstr ""
+msgstr "ئىستون بىرىكتۈرۈش"
 
 #: ../clutter/clutter-table-layout.c:560
 msgid "The number of columns the widget should span"
@@ -1682,7 +1669,7 @@ msgstr ""
 
 #: ../clutter/clutter-table-layout.c:567
 msgid "Row Span"
-msgstr ""
+msgstr "قۇر بىرىكتۈرۈش"
 
 #: ../clutter/clutter-table-layout.c:568
 msgid "The number of rows the widget should span"
@@ -1706,11 +1693,11 @@ msgstr ""
 
 #: ../clutter/clutter-table-layout.c:1638
 msgid "Spacing between columns"
-msgstr ""
+msgstr "ئىستونلار ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-table-layout.c:1652
 msgid "Spacing between rows"
-msgstr ""
+msgstr "قۇرلار ئارىسىدىكى بوشلۇق"
 
 #: ../clutter/clutter-text-buffer.c:351 ../clutter/clutter-text.c:3402
 msgid "Text"
@@ -1742,11 +1729,11 @@ msgstr "يىغلەك"
 
 #: ../clutter/clutter-text.c:3350
 msgid "The buffer for the text"
-msgstr ""
+msgstr "تېكىست ئۈچۈن ئىشلىتىلىدىغان يىغلەك"
 
 #: ../clutter/clutter-text.c:3368
 msgid "The font to be used by the text"
-msgstr ""
+msgstr "تېكىست ئۈچۈن ئىشلىتىلىدىغان خەت نۇسخىسى"
 
 #: ../clutter/clutter-text.c:3385
 msgid "Font Description"
@@ -1754,11 +1741,11 @@ msgstr "خەت نۇسخىسى چۈشەندۈرۈلۈشى"
 
 #: ../clutter/clutter-text.c:3386
 msgid "The font description to be used"
-msgstr ""
+msgstr "ئىشلىتىلىدىغان خەت نۇسخىسى چۈشەندۈرۈلۈشى"
 
 #: ../clutter/clutter-text.c:3403
 msgid "The text to render"
-msgstr ""
+msgstr "سىزىلىدىغان تېكىست"
 
 #: ../clutter/clutter-text.c:3417
 msgid "Font Color"
@@ -1766,7 +1753,7 @@ msgstr "خەت رەڭگى"
 
 #: ../clutter/clutter-text.c:3418
 msgid "Color of the font used by the text"
-msgstr ""
+msgstr "تېكىستنىڭ رەڭگى"
 
 #: ../clutter/clutter-text.c:3433
 msgid "Editable"
@@ -1774,7 +1761,7 @@ msgstr "تەھرىرچان"
 
 #: ../clutter/clutter-text.c:3434
 msgid "Whether the text is editable"
-msgstr ""
+msgstr "تېكىستنى تەھرىرلىگىلى بولامدۇ يوق"
 
 #: ../clutter/clutter-text.c:3449
 msgid "Selectable"
@@ -1782,7 +1769,7 @@ msgstr "تاللاشچان"
 
 #: ../clutter/clutter-text.c:3450
 msgid "Whether the text is selectable"
-msgstr ""
+msgstr "تېكىستنى تاللىغىلى بولامدۇ يوق"
 
 #: ../clutter/clutter-text.c:3464
 msgid "Activatable"
@@ -1794,11 +1781,11 @@ msgstr ""
 
 #: ../clutter/clutter-text.c:3482
 msgid "Whether the input cursor is visible"
-msgstr ""
+msgstr "كىرگۈزۈش نۇربەلگىسى كۆرۈنەمدۇ يوق"
 
 #: ../clutter/clutter-text.c:3496 ../clutter/clutter-text.c:3497
 msgid "Cursor Color"
-msgstr ""
+msgstr "نۇربەلگە رېڭى"
 
 #: ../clutter/clutter-text.c:3512
 msgid "Cursor Color Set"
@@ -1810,11 +1797,11 @@ msgstr ""
 
 #: ../clutter/clutter-text.c:3528
 msgid "Cursor Size"
-msgstr ""
+msgstr "نۇربەلگە چوڭلۇقى"
 
 #: ../clutter/clutter-text.c:3529
 msgid "The width of the cursor, in pixels"
-msgstr ""
+msgstr "نۇربەلگىنىڭ پىكسېل ئارقىلىق ئىپادىلەنگەن كەڭلىكى"
 
 #: ../clutter/clutter-text.c:3545 ../clutter/clutter-text.c:3563
 msgid "Cursor Position"
@@ -1822,7 +1809,7 @@ msgstr "نۇربەلگە ئورنى"
 
 #: ../clutter/clutter-text.c:3546 ../clutter/clutter-text.c:3564
 msgid "The cursor position"
-msgstr ""
+msgstr "نۇربەلگىنىڭ ئورنى"
 
 #: ../clutter/clutter-text.c:3579
 msgid "Selection-bound"
@@ -1834,7 +1821,7 @@ msgstr ""
 
 #: ../clutter/clutter-text.c:3595 ../clutter/clutter-text.c:3596
 msgid "Selection Color"
-msgstr ""
+msgstr "تاللاش رەڭگى"
 
 #: ../clutter/clutter-text.c:3611
 msgid "Selection Color Set"
@@ -1846,7 +1833,7 @@ msgstr ""
 
 #: ../clutter/clutter-text.c:3627
 msgid "Attributes"
-msgstr "خاسلىق"
+msgstr "خاسلىقلار"
 
 #: ../clutter/clutter-text.c:3628
 msgid "A list of style attributes to apply to the contents of the actor"
@@ -1886,23 +1873,23 @@ msgstr ""
 
 #: ../clutter/clutter-text.c:3716
 msgid "Line Alignment"
-msgstr ""
+msgstr "قۇر توغرىلىنىشى"
 
 #: ../clutter/clutter-text.c:3717
 msgid "The preferred alignment for the string, for multi-line text"
-msgstr ""
+msgstr "كوپ قۇرلۇق تېكىستلەردىكى قۇرنىڭ توغرىلىنىشى"
 
 #: ../clutter/clutter-text.c:3733
 msgid "Justify"
-msgstr "ئوڭ سولدىن توغرىلا"
+msgstr "ئوڭ-سول تەرىپى تەكشى"
 
 #: ../clutter/clutter-text.c:3734
 msgid "Whether the text should be justified"
-msgstr ""
+msgstr "تېكىستنىڭ ئوڭ-سول تەرىپى تەكشىمۇ ئەمەسمۇ"
 
 #: ../clutter/clutter-text.c:3749
 msgid "Password Character"
-msgstr ""
+msgstr "ئىم ھەرپى"
 
 #: ../clutter/clutter-text.c:3750
 msgid "If non-zero, use this character to display the actor's contents"
@@ -1922,7 +1909,7 @@ msgstr "يەككە قۇر ھالىتى"
 
 #: ../clutter/clutter-text.c:3789
 msgid "Whether the text should be a single line"
-msgstr ""
+msgstr "تېكىست بىرلا قۇر بولامدۇ يوق"
 
 #: ../clutter/clutter-text.c:3803 ../clutter/clutter-text.c:3804
 msgid "Selected Text Color"
@@ -1985,7 +1972,7 @@ msgstr ""
 
 #: ../clutter/clutter-timeline.c:643
 msgid "Repeat Count"
-msgstr ""
+msgstr "تەكرارلاش قېتىمى"
 
 #: ../clutter/clutter-timeline.c:644
 msgid "How many times the timeline should repeat"
@@ -2008,7 +1995,6 @@ msgid "The interval of values to transition"
 msgstr ""
 
 #: ../clutter/clutter-transition.c:261
-#| msgid "Activatable"
 msgid "Animatable"
 msgstr ""
 
@@ -2649,7 +2635,6 @@ msgid "Make X calls synchronous"
 msgstr "X نى قەدەمداش قىلىپ ئىشلەت"
 
 #: ../clutter/x11/clutter-backend-x11.c:534
-#| msgid "Enable XInput support"
 msgid "Disable XInput support"
 msgstr ""
 
