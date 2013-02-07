@@ -167,7 +167,7 @@ cally_root_initialize (AtkObject              *accessible,
   CallyRoot           *root          = NULL;
 
   accessible->role = ATK_ROLE_APPLICATION;
-  accessible->name = g_get_prgname();
+  accessible->name = g_strdup (g_get_prgname());
   accessible->accessible_parent = NULL;
 
   /* children initialization */
