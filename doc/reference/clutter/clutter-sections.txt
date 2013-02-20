@@ -624,13 +624,11 @@ clutter_texture_get_type
 <TITLE>ClutterStage</TITLE>
 ClutterStage
 ClutterStageClass
-CLUTTER_STAGE_WIDTH
-CLUTTER_STAGE_HEIGHT
-clutter_stage_get_default
 clutter_stage_new
-clutter_stage_is_default
-
-<SUBSECTION>
+clutter_stage_set_title
+clutter_stage_get_title
+clutter_stage_set_user_resizable
+clutter_stage_get_user_resizable
 clutter_stage_set_color
 clutter_stage_get_color
 clutter_stage_set_fullscreen
@@ -661,6 +659,8 @@ clutter_stage_set_accept_focus
 clutter_stage_get_accept_focus
 clutter_stage_get_motion_events_enabled
 clutter_stage_set_motion_events_enabled
+clutter_stage_set_sync_delay
+clutter_stage_skip_sync_delay
 
 <SUBSECTION>
 ClutterPerspective
@@ -668,17 +668,15 @@ clutter_stage_set_perspective
 clutter_stage_get_perspective
 
 <SUBSECTION>
-clutter_stage_set_title
-clutter_stage_get_title
-clutter_stage_set_user_resizable
-clutter_stage_get_user_resizable
-
-<SUBSECTION>
 ClutterFog
 clutter_stage_set_use_fog
 clutter_stage_get_use_fog
 clutter_stage_set_fog
 clutter_stage_get_fog
+
+<SUBSECTION>
+clutter_stage_get_default
+clutter_stage_is_default
 
 <SUBSECTION Standard>
 CLUTTER_STAGE
@@ -690,6 +688,8 @@ CLUTTER_STAGE_GET_CLASS
 CLUTTER_STAGE_TYPE
 CLUTTER_TYPE_PERSPECTIVE
 CLUTTER_TYPE_FOG
+CLUTTER_STAGE_WIDTH
+CLUTTER_STAGE_HEIGHT
 <SUBSECTION Private>
 ClutterStagePrivate
 clutter_stage_get_type
