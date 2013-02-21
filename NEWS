@@ -1,3 +1,48 @@
+Clutter 1.13.6                                                       2013-02-20
+===============================================================================
+
+  • List of changes since Clutter 1.13.4
+
+    - Perform the picking in a separate buffer
+    By using a separate buffer we can maintain the back buffer in a stable
+    state, and recycle its contents when doing clipped redraws; this should
+    improve performance and reduce tearing.
+
+    - Add experimental API for changing the draw timing
+    This API can be used to delay the next frame to a specific point in time,
+    instead of immediately.
+
+    - Always request XInput 2.3 on the X11 backend
+    If XInput is available, we should request the latest version.
+
+    - Translation updates
+    Serbian, Brazilian Portuguese, Uyghur, Lithuanian, Italian, French,
+    Polish, Galician.
+
+  • List of bugs fixed since Clutter 1.13.4
+
+    #692466 - clutter: Add "support" for XI2.3
+    #692971 - x11/device-manager-xi2: Fix slave to master association
+    #669122 - Clipped redraws and tearing
+    #693348 - evdev: Fix use of the common XKB code for the evdev device
+    #692901 - Add clutter_stage_set_sync_delay()
+    #693696 - Fix startup with gnome-shell and cogl-1.14
+    #693767 - tests fail on new unexpected symbols
+    #694187 - double-typed constant where enum is expected
+    #693741 - wayland: Unable to run conform suite on Wayland unless [X]
+              DISPLAY set
+    #694229 - Don't do anything special with COGL_ENABLE_EXPERIMENTAL_2_0_API
+    #687652 - cogl: Don't use cogl_xlib_set_diplay()
+    #694237 - actor: Fix clutter_actor_allocate_align_fill for
+              partially-filled actors
+
+Many thanks to:
+
+  Adel Gadllah, Jasper St. Pierre, Gheyret Kenji, Milo Casagrande, Neil
+  Roberts, Alexandre Franke, Aurimas Černius, Damien Lespiau, Fran Diéguez,
+  Josselin Mouette, Owen W. Taylor, Piotr Drąg, Rafael Ferreira, Rob Bradford,
+  Rui Matos, Sebastian Keller, Yanko Kaneti, Мирослав Николић.
+
 Clutter 1.13.4                                                       2013-01-16
 ===============================================================================
 
