@@ -252,7 +252,7 @@ main (int argc, char **argv)
 
   TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_npot_texture);
   TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_multitexture);
-  TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_texture_mipmaps);
+  TEST_CONFORM_TODO ("/cogl/texture", test_cogl_texture_mipmaps);
   TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_texture_rectangle);
   TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_texture_pixmap_x11);
   TEST_CONFORM_SIMPLE ("/cogl/texture", test_cogl_texture_get_set_data);
