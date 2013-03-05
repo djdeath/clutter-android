@@ -1,3 +1,39 @@
+Clutter 1.13.8                                                       2013-03-04
+===============================================================================
+
+  • List of changes since Clutter 1.13.6
+
+    - Use ClutterActor:child-transform with ClutterScrollActor
+    The ScrollActor class now uses the :child-transform property to translate
+    its children when scrolling. This simplifies the code, and makes it more
+    robust with regards to clipped redraws.
+
+    - Add progress-based marker API to ClutterTimeline
+    Allow adding a marker to a Timeline instance using the normalized progress
+    value between the beginning and the end of the timeline's duration.
+
+    - Allow building Wayland compositor and client support together
+    Instead of having to require two separate builds.
+
+    - Documentation fixes
+
+    - Translations update
+    Czech, Traditional Chinese (Hong Kong and Taiwan), German.
+
+  • List of bugs fixed since Clutter 1.13.6
+
+    #695158 - Animated property transitions cause the animated actor to be
+              leaked
+    #695119 - text: Fix PangoFontDescription leak
+    #694267 - The search entry no longer reacts to layout switches
+    #692851 - wayland backend & compositor support can't be built together
+    #694319 - Add progress-based marker API to ClutterTimeline
+    #686225 - ClutterScrollActor scrolls itself instead of just its contents
+
+Many thanks to:
+
+  Daniel Stone, Chao-Hsiung Liao, Marek Černocký, Mario Blättermann, Rui Matos.
+
 Clutter 1.13.6                                                       2013-02-20
 ===============================================================================
 
