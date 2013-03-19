@@ -1,3 +1,54 @@
+Clutter 1.13.10                                                      2013-03-18
+===============================================================================
+
+  • List of changes since Clutter 1.13.8
+
+    - Fix a typo in the ClutterTimeline::stopped signal declaration
+    The "stopped" signal was using the ClutterTimelineClass.completed virtual
+    function pointer slot, instead of the correct .stopped one, thus making
+    subclasses of ClutterTimeline unable to override the default handler for
+    the signal.
+
+    - Use the XKB groups state when computing key modifiers on X11
+    This allows getting the correct key symbol for high order groups.
+
+    - Fixes for the Visual Studio build
+
+    - Documentation and introspection fixes
+
+    - Add a function to disable accessibility
+    This allows using Clutter with an embedding toolkit that is also using
+    ATK, like GTK+, without confusing the accessibility infrastructure.
+
+    - Performance improvements
+    ClutterActor now tries to minimize the amount of redraws queued on
+    unmapped actors, unless the actors have Clones, or are part of a cloned
+    branch of the scene graph.
+
+    - Translation updates
+    Uyghur, Belarusian, Catalan, Indonesian, Assamese, Portuguese, Danish,
+    Catalan.
+
+  • List of bugs fixed since Clutter 1.13.8
+
+    #695158 - Animated property transitions cause the animated actor to be
+              leaked
+    #695260 - x11/xi2: Factor the XKB group state in to fill events'
+              modifier_state
+    #695188 - event: Use gunichar when dealing with unicode characters
+    #691468 - No accessible key events
+    #695838 - clutter: Prefer the X11 backend to the Wayland one
+    #695870 - commit "actor: Skip transitions on invisible actors" breaks
+              working code - reproducer included
+    #695982 - Fix transition-z property setting
+
+Many thanks to:
+
+  Chun-wei Fan, Alejandro Piñeiro, Andika Triwidada, Ask H. Larsen, Bastien
+  Nocera, Carles Ferrando, Duarte Loreto, Gheyret Kenji, Gil Forcada, Ihar
+  Hrachyshka, Jasper St. Pierre, Lionel Landwerlin, Nilamdyuti Goswami, Rui
+  Matos
+
 Clutter 1.13.8                                                       2013-03-04
 ===============================================================================
 

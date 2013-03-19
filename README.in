@@ -304,6 +304,20 @@ Release Notes for Clutter 1.14
 • The X11 backend (both core X events and XInput 2 backends) now mask out
   scroll lock and num lock modifiers from the event state.
 
+• The X11 backend is the preferred backend on Linux, with Wayland, and GDK
+  following.
+
+• Redraws queued on unmapped actors will be ignored; since the unmapped state
+  is propagated downwards from the first actor that is unmapped to its leaf
+  children, this should ensure that redraws queued on unmapped actors will not
+  propagate further upwards.
+
+• The return value of clutter_event_get_key_unicode() and the argument of
+  clutter_event_set_key_unicode() has been changed to be of type 'gunichar'
+  instead of 'guint32'; from a C perspective, this does not change the type
+  at all: gunichar is a typedef to guint32 already. The change will impact
+  introspection consumers.
+
 Release Notes for Clutter 1.12
 -------------------------------------------------------------------------------
 
