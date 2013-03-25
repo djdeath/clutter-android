@@ -1,3 +1,28 @@
+Clutter 1.14.0                                                       2013-03-25
+===============================================================================
+
+  • List of changes since Clutter 1.13.10
+
+    - Require Cogl ≥ 1.14.0
+
+    - Translation updates
+    Tadjik, Slovak, Latvian, Hindi.
+
+Many thanks to all the contributors of the 1.13 development cycle:
+
+  Jasper St. Pierre, Emanuele Aina, Daniel Stone, Chun-wei Fan, Rob Bradford,
+  Adel Gadllah, Gheyret Kenji, Piotr Drąg, Rui Matos, Tomeu Vizoso, Wouter
+  Paesen, Alejandro Piñeiro, Fran Diéguez, Kouhei Sutou, Lionel Landwerlin,
+  Milo Casagrande, Neil Roberts, Wolfgang Stöggl, Aleksej Kabanov, Alexander
+  Shopov, Alexandre Franke, Andika Triwidada, Ask H. Larsen, Aurimas Černius,
+  Bastien Nocera, Carles Ferrando, Chao-Hsiung Liao, Christian Kirbach, Damien
+  Lespiau, Daniel Mustieles, Dimitris Spingos, Duarte Loreto, Gil Forcada,
+  Guillaume Desmottes, Ihar Hrachyshka, Josselin Mouette, Ján Kyselica, Marek
+  Černocký, Mario Blättermann, Matej Urbančič, Nilamdyuti Goswami, Nirbheek
+  Chauhan, OKANO Takayoshi, Owen W. Taylor, Rafael Ferreira, Rajesh Ranjan,
+  Rūdolfs Mazurs, Sebastian Keller, Tristan Van Berkom, Victor Ibragimov,
+  Yanko Kaneti, Мирослав Николић.
+
 Clutter 1.13.10                                                      2013-03-18
 ===============================================================================
 
